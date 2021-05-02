@@ -64,8 +64,12 @@ class CategoryTabsNotifier extends ChangeNotifier {
   ];
 
   final _featuredProducts = [
-    Featured(productId: '3', color: kDarkBlue),
-    Featured(productId: '1', color: Colors.redAccent),
+    Featured(
+      productId: '3',
+    ),
+    Featured(
+      productId: '1',
+    ),
   ];
 
   List<Product> get featuredProducts {
