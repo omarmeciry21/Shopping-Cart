@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/data_access/data/cart.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/home/widgets/explore_product_card.dart';
 import 'package:my_shop_app/ui/home/widgets/category_tabbed_list.dart';
+import 'package:my_shop_app/ui/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/product_details/screens/product_details_screen.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/cart_numbered_icon.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  final cart_list = [''];
-  final top_products = ['sda', 'dfs', 'dfs', 'dfs'];
-  final int selectedIndex = 2;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ChangeNotifierProvider(
-        create: (context) => CategoryTabsNotifier(),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => CategoryTabsNotifier()),
+          ChangeNotifierProvider(create: (context) => MyCartNotifier()),
+        ],
         child: SafeArea(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20.0,
-              vertical: 20.0,
-            ),
+            padding: kScreenPadding(context),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,9 +59,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    CartNumberedIcon(
-                      list: cart_list,
-                      onPressed: () {},
+                    Consumer<MyCartNotifier>(
+                      builder: (_, cartNotifier, __) => CartNumberedIcon(
+                        listLength: cartNotifier.cartItems.length,
+                        onPressed: () {},
+                      ),
                     ),
                   ],
                 ),
@@ -72,11 +72,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Text(
                   'Explore',
-                  style: TextStyle(
-                    color: kDarkBlue,
-                    fontSize: getAdaptiveHeight(24, context),
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: kTitleTextStyle(context),
                 ),
                 SizedBox(
                   height: getAdaptiveHeight(15, context),

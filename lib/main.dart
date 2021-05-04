@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/routes.dart';
-import 'package:my_shop_app/ui/splash/screens/splash_screen.dart';
 
 void main() {
   runApp(MyApp());

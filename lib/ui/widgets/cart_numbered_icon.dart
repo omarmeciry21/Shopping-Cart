@@ -4,11 +4,11 @@ import 'package:my_shop_app/ui/constants.dart';
 class CartNumberedIcon extends StatelessWidget {
   const CartNumberedIcon({
     Key key,
-    @required this.list,
+    @required this.listLength,
     @required this.onPressed,
   }) : super(key: key);
 
-  final List list;
+  final int listLength;
   final Function onPressed;
 
   @override
@@ -28,7 +28,7 @@ class CartNumberedIcon extends StatelessWidget {
                 ),
                 onPressed: null,
               ),
-              list.length == 0
+              listLength == 0
                   ? Container()
                   : Stack(
                       children: <Widget>[
@@ -39,7 +39,7 @@ class CartNumberedIcon extends StatelessWidget {
                           width: 20,
                           child: Center(
                             child: Text(
-                              list.length.toString(),
+                              listLength.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 11.0,
