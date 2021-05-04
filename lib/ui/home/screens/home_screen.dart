@@ -3,6 +3,7 @@ import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/home/widgets/explore_product_card.dart';
 import 'package:my_shop_app/ui/home/widgets/category_tabbed_list.dart';
+import 'package:my_shop_app/ui/product_details/screens/product_details_screen.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/cart_numbered_icon.dart';
 import 'package:provider/provider.dart';
@@ -87,15 +88,24 @@ class HomeScreen extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: categoryNotifier.featuredProducts.length,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => ExploreProductCard(
-                        color: categoryNotifier.featuredProducts[index].color,
-                        image:
-                            categoryNotifier.featuredProducts[index].imageUrl,
-                        price: categoryNotifier.featuredProducts[index].price
-                            .toString(),
-                        title: categoryNotifier.featuredProducts[index].title,
-                        priceSymbole: categoryNotifier
-                            .featuredProducts[index].moneySymbol,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailsScreen(
+                                categoryNotifier.featuredProducts[index]),
+                          ),
+                        ),
+                        child: ExploreProductCard(
+                          color: categoryNotifier.featuredProducts[index].color,
+                          image:
+                              categoryNotifier.featuredProducts[index].imageUrl,
+                          price: categoryNotifier.featuredProducts[index].price
+                              .toString(),
+                          title: categoryNotifier.featuredProducts[index].title,
+                          priceSymbole: categoryNotifier
+                              .featuredProducts[index].moneySymbol,
+                        ),
                       ),
                     ),
                   ),
