@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 
 class ExploreProductCard extends StatelessWidget {

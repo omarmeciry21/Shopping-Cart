@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
+import 'package:my_shop_app/ui/product_details/screens/product_details_screen.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:provider/provider.dart';
 
@@ -18,27 +19,35 @@ class CategoryTabbedList extends StatelessWidget {
         .forEach((e) => categoryNames.add(e.title));
     return SingleChildScrollView(
       child: Consumer<CategoryTabsNotifier>(
-        builder: (_, cateogryNotifier, __) => Column(
+        builder: (_, categoryNotifier, __) => Column(
           children: [
             TextTabsList(
               items: categoryNames,
-              selectedIndex: cateogryNotifier.selectedIndex,
+              selectedIndex: categoryNotifier.selectedIndex,
             ),
             SizedBox(
               height: getAdaptiveHeight(15, context),
             ),
             GridView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: cateogryNotifier.selectedCategoryProducts.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (context, index) {
-                  final Product currentProduct =
-                      cateogryNotifier.selectedCategoryProducts[index];
-                  return Padding(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: categoryNotifier.selectedCategoryProducts.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemBuilder: (context, index) {
+                final Product currentProduct =
+                    categoryNotifier.selectedCategoryProducts[index];
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailsScreen(
+                          categoryNotifier.featuredProducts[index]),
+                    ),
+                  ),
+                  child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: getAdaptiveWidth(8, context),
                         vertical: getAdaptiveHeight(8, context)),
@@ -84,8 +93,10 @@ class CategoryTabbedList extends StatelessWidget {
                         ),
                       ),
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

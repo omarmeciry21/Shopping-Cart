@@ -6,6 +6,7 @@ import 'package:my_shop_app/data_access/data/products.dart' as data;
 
 class CategoryTabsNotifier extends ChangeNotifier {
   int selectedIndex = 0;
+
   void updateIndex(int value) {
     selectedIndex = value;
     notifyListeners();
