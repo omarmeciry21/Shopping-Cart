@@ -2,10 +2,10 @@
 
 import 'package:flutter/cupertino.dart';
 
-double getAdaptiveWidth(double width, BuildContext context) {
+double getAdaptiveWidth(num width, BuildContext context) {
   return width / 313.92 * MediaQuery.of(context).size.width;
 }
 
-double getAdaptiveHeight(double height, BuildContext context) {
+double getAdaptiveHeight(num height, BuildContext context) {
   return height / 601.92 * MediaQuery.of(context).size.height;
 }

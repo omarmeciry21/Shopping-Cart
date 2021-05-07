@@ -18,7 +18,23 @@ TextStyle kTitleTextStyle(BuildContext context) => TextStyle(
       fontWeight: FontWeight.bold,
     );
 
+TextStyle kScreenTitleTextStyle(BuildContext context) {
+  return TextStyle(
+    color: kDarkBlue,
+    fontWeight: FontWeight.bold,
+    fontSize: getAdaptiveHeight(20, context),
+  );
+}
+
+TextStyle kQuantityTextStyle(context) {
+  return TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: getAdaptiveHeight(20, context),
+    color: Colors.black45,
+  );
+}
+
 EdgeInsets kScreenPadding(BuildContext context) => EdgeInsets.symmetric(
       horizontal: getAdaptiveWidth(20.0, context),
-      vertical: getAdaptiveHeight(20.0, context),
+      vertical: getAdaptiveHeight(5.0, context),
     );

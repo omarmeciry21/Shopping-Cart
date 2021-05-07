@@ -14,11 +14,11 @@ class CategoryTabbedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> categoryNames = [];
-    Provider.of<CategoryTabsNotifier>(context)
+    Provider.of<HomeNotifier>(context)
         .categories
         .forEach((e) => categoryNames.add(e.title));
     return SingleChildScrollView(
-      child: Consumer<CategoryTabsNotifier>(
+      child: Consumer<HomeNotifier>(
         builder: (_, categoryNotifier, __) => Column(
           children: [
             TextTabsList(
@@ -148,7 +148,7 @@ class TextTabsList extends StatelessWidget {
                   ],
                 )
               : GestureDetector(
-                  onTap: () => Provider.of<CategoryTabsNotifier>(
+                  onTap: () => Provider.of<HomeNotifier>(
                     context,
                     listen: false,
                   ).updateIndex(index),

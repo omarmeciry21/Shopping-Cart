@@ -4,7 +4,7 @@ import 'package:my_shop_app/core/models/product.dart';
 import 'package:my_shop_app/data_access/data/categories.dart' as data;
 import 'package:my_shop_app/data_access/data/products.dart' as data;
 
-class CategoryTabsNotifier extends ChangeNotifier {
+class HomeNotifier extends ChangeNotifier {
   int selectedIndex = 0;
 
   void updateIndex(int value) {
@@ -22,6 +22,10 @@ class CategoryTabsNotifier extends ChangeNotifier {
               .where((element) =>
                   element.categoryId == categories[selectedIndex].categoryId)
               .toList();
+
+  Product getProductAt(int index) => products.elementAt(index);
+  Product getProductWithId(String productId) =>
+      products.where((element) => element.productId == productId).first;
   List<Category> get categories => data.categories;
   List<Product> get products => data.products;
 }
