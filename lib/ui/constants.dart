@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 
+enum Gender { Male, Female }
+
 const kDarkBlue = Color(0xFF163970);
 const kDarkOrange = Color(0xFFEDBA1D);
 const kTextFieldDecoration = InputDecoration(
@@ -23,6 +25,13 @@ TextStyle kScreenTitleTextStyle(BuildContext context) {
     color: kDarkBlue,
     fontWeight: FontWeight.bold,
     fontSize: getAdaptiveHeight(20, context),
+  );
+}
+
+TextStyle kSecondaryTextStyle(BuildContext context) {
+  return kQuantityTextStyle(context).copyWith(
+    fontSize: getAdaptiveHeight(18, context),
+    color: Colors.black38,
   );
 }
 

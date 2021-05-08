@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/constants.dart';
+import 'package:my_shop_app/ui/home/widgets/drawer_customized_tile.dart';
+import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
+import 'package:my_shop_app/ui/widgets/rounded_network_image.dart';
+import 'package:provider/provider.dart';
 
 class HomePageDrawer extends StatelessWidget {
   const HomePageDrawer({
@@ -20,16 +24,9 @@ class HomePageDrawer extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        width: getAdaptiveHeight(60, context),
-                        height: getAdaptiveHeight(60, context),
-                        child: Image.network(
-                          'https://th.bing.com/th/id/R78c79313bcf397659cc7c517d81ebb90?rik=54AVAfZHVx1lJg&pid=ImgRaw',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    RoundedNetworkImage(
+                      size: 60,
+                      image: Provider.of<ProfileNotifier>(context).userImageUrl,
                     ),
                     SizedBox(
                       width: getAdaptiveWidth(15, context),
@@ -69,7 +66,7 @@ class HomePageDrawer extends StatelessWidget {
           DrawerCustomizedTile(
             icon: Icons.person_rounded,
             text: 'Profile',
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, '/home/profile'),
           ),
           DrawerCustomizedTile(
             icon: Icons.favorite_rounded,
@@ -110,49 +107,6 @@ class HomePageDrawer extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class DrawerCustomizedTile extends StatelessWidget {
-  const DrawerCustomizedTile({
-    Key key,
-    @required this.icon,
-    @required this.text,
-    @required this.onPressed,
-    this.color = kDarkBlue,
-  }) : super(key: key);
-
-  final icon, text, color, onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      minVerticalPadding: 0,
-      trailing: color == Colors.black45
-          ? Container(
-              width: 0,
-              height: 0,
-            )
-          : Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: getAdaptiveHeight(20, context),
-              color: Colors.black45,
-            ),
-      leading: Icon(
-        icon,
-        size: getAdaptiveHeight(25, context),
-        color: color,
-      ),
-      title: Text(
-        text,
-        style: TextStyle(
-          color: color,
-          fontSize: getAdaptiveHeight(14, context),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onTap: () {},
     );
   }
 }

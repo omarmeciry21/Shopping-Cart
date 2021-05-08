@@ -8,16 +8,17 @@ class OutlinedIconButton extends StatelessWidget {
     @required this.onPressed,
     this.containerDimensions = 25,
     this.iconSize = 15,
-    this.color = Colors.black45,
+    this.color,
   }) : super(key: key);
 
   final IconData icon;
   final Function onPressed;
   final double containerDimensions, iconSize;
-  final color;
+  dynamic color;
 
   @override
   Widget build(BuildContext context) {
+    if (color == null) color = Colors.black45;
     return GestureDetector(
       onTap: onPressed == null ? () {} : onPressed,
       child: Container(
