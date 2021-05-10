@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
 import 'package:my_shop_app/ui/constants.dart';
+import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 
-import 'package:my_shop_app/ui/product_details/notifiers/favourites_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
 import 'package:my_shop_app/ui/widgets/blue_button.dart';
@@ -31,7 +31,7 @@ class ProductDetailsScreen extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      body: Consumer<FavouritesNotifier>(
+      body: Consumer<HomeNotifier>(
         builder: (_, favouritesNotifier, __) => SafeArea(
           child: Padding(
             padding: kScreenPadding(context),
@@ -145,7 +145,7 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
               children: [
                 GestureDetector(
                   onTap: () => widget.favouritesNotifier
-                      .makeFavourite(widget.product.productId),
+                      .makeFavourite(widget.product.productId, context),
                   child: Container(
                     width: getAdaptiveHeight(35, context),
                     height: getAdaptiveHeight(35, context),

@@ -13,6 +13,7 @@ class HomePageDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileNotifier = Provider.of<ProfileNotifier>(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -26,31 +27,33 @@ class HomePageDrawer extends StatelessWidget {
                   children: [
                     RoundedNetworkImage(
                       size: 60,
-                      image: Provider.of<ProfileNotifier>(context).userImageUrl,
+                      image: profileNotifier.userImageUrl,
                     ),
                     SizedBox(
                       width: getAdaptiveWidth(15, context),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Omar Nabel',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: getAdaptiveHeight(24, context),
-                            fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${profileNotifier.userName}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: getAdaptiveHeight(24, context),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'omar@gmail.com',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: getAdaptiveHeight(12, context),
+                          Text(
+                            '${profileNotifier.userEmail}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: getAdaptiveHeight(12, context),
+                            ),
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -71,7 +74,7 @@ class HomePageDrawer extends StatelessWidget {
           DrawerCustomizedTile(
             icon: Icons.favorite_rounded,
             text: 'Favourites',
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, '/home/favourites'),
           ),
           DrawerCustomizedTile(
             icon: Icons.track_changes_rounded,

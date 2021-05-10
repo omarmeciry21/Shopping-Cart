@@ -32,6 +32,7 @@ class TextFieldProfileItem extends StatelessWidget {
       secondChild: TextField(
         controller: nameController,
         maxLength: maxLength,
+        inputFormatters: [],
         style: TextStyle(
           color: kDarkBlue,
           fontWeight: FontWeight.bold,

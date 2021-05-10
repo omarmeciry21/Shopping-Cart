@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 
 enum Gender { Male, Female }
+enum Validity { InvalidEmail, InvalidName, InvalidPhone, Valid }
 
 const kDarkBlue = Color(0xFF163970);
 const kDarkOrange = Color(0xFFEDBA1D);

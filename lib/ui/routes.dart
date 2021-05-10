@@ -1,3 +1,4 @@
+import 'package:my_shop_app/ui/favourites/screens/favourites_screen.dart';
 import 'package:my_shop_app/ui/forget_password/screens/confirm_email_screen.dart';
 import 'package:my_shop_app/ui/forget_password/screens/new_password_screen.dart';
 import 'package:my_shop_app/ui/forget_password/screens/verification_code_screen.dart';
@@ -18,4 +19,5 @@ final routes = {
   '/home': (context) => HomeScreen(),
   '/home/my_cart': (context) => MyCartScreen(),
   '/home/profile': (context) => ProfileScreen(),
+  '/home/favourites': (context) => FavouritesScreen(),
 };

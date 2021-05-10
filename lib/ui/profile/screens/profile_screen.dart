@@ -57,13 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 phone: _phoneController.text,
                 imageUrl: _imageUrl,
                 gender: _gender,
-              );
-              Navigator.pop(context);
-              Toast.show(
-                'Updated Successfully!',
-                context,
-                duration: Toast.LENGTH_LONG,
-                backgroundColor: Colors.green,
+                context: context,
               );
             },
           ),
@@ -118,12 +112,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               TextFieldProfileItem(
                 nameController: _nameController,
-                hint: 'Enter your full name...',
+                hint: 'Full Name',
                 label: 'Name',
               ),
               TextFieldProfileItem(
                 nameController: _emailController,
-                hint: 'Enter your email...',
+                hint: 'email@example.com',
                 label: 'Email',
                 fontSize: 14,
               ),
@@ -161,9 +155,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               TextFieldProfileItem(
                 nameController: _phoneController,
-                hint: 'Enter your phome number...',
+                hint: 'Phone number',
                 label: 'Phone',
-                maxLength: 20,
+                maxLength: 13,
               ),
             ],
           ),
