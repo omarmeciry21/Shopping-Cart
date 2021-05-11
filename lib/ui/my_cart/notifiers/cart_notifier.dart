@@ -1,12 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_shop_app/core/models/cart_item.dart';
+import 'package:my_shop_app/core/models/order.dart';
 import 'package:my_shop_app/core/models/product.dart';
 import 'package:my_shop_app/data_access/data/cart.dart';
+import 'package:my_shop_app/data_access/data/orders.dart';
+import 'package:my_shop_app/ui/constants.dart';
+import 'package:toast/toast.dart';
 
 class MyCartNotifier extends ChangeNotifier {
   List<CartItem> get items => cart;
 
-  void addToCart(Product product, int quantity) {
+  void addToCart(Product product, int quantity, BuildContext context) {
     final item = CartItem(
       productId: product.productId,
       quantity: quantity,
@@ -14,8 +19,12 @@ class MyCartNotifier extends ChangeNotifier {
       price: (product.price * quantity).toDouble(),
     );
     cart.add(item);
-    print(item);
-    print(cart.length);
+    Toast.show(
+      'Added To Cart Successfully!',
+      context,
+      duration: Toast.LENGTH_LONG,
+      backgroundColor: Colors.green,
+    );
     notifyListeners();
   }
 
@@ -52,5 +61,28 @@ class MyCartNotifier extends ChangeNotifier {
       sum += item.price;
     }
     return sum;
+  }
+
+  double totalPriceOf(List<CartItem> items) {
+    double sum = 0;
+    for (CartItem item in items) {
+      sum += item.price;
+    }
+    return sum;
+  }
+
+  List<Order> get ordersItems => orders;
+  int get ordersCount => orders.length;
+
+  void checkOut() {
+    orders.add(Order(
+        orderId: DateTime.now().microsecondsSinceEpoch.toString(),
+        items: cart.map((e) => e).toList(),
+        orderDate: DateTime.now(),
+        state: OrderState.Submitted,
+        feedBack: null));
+
+    cart.clear();
+    notifyListeners();
   }
 }

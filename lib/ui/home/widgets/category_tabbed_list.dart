@@ -26,9 +26,6 @@ class CategoryTabbedList extends StatelessWidget {
               items: categoryNames,
               selectedIndex: homeNotifier.selectedIndex,
             ),
-            SizedBox(
-              height: getAdaptiveHeight(15, context),
-            ),
             ProductsGridView(
               listLength: homeNotifier.selectedCategoryProducts.length,
               productList: homeNotifier.selectedCategoryProducts,

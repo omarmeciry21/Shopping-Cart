@@ -20,7 +20,7 @@ class GenderGroupIcons extends StatelessWidget {
           OutlinedIconButton(
             containerDimensions: 40,
             iconSize: 25,
-            color: genderNotifer.userGender == Gender.Male ? kDarkBlue : null,
+            color: genderNotifer.userGender == Gender.Male ? kDarkOrange : null,
             icon: FontAwesomeIcons.mars,
             onPressed: () {
               genderNotifer.toggleGender(Gender.Male);
@@ -32,7 +32,8 @@ class GenderGroupIcons extends StatelessWidget {
           OutlinedIconButton(
             containerDimensions: 40,
             iconSize: 25,
-            color: genderNotifer.userGender == Gender.Female ? kDarkBlue : null,
+            color:
+                genderNotifer.userGender == Gender.Female ? kDarkOrange : null,
             icon: FontAwesomeIcons.venus,
             onPressed: () {
               genderNotifer.toggleGender(Gender.Female);

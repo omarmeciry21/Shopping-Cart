@@ -22,40 +22,43 @@ class HomePageDrawer extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    RoundedNetworkImage(
-                      size: 60,
-                      image: profileNotifier.userImageUrl,
-                    ),
-                    SizedBox(
-                      width: getAdaptiveWidth(15, context),
-                    ),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${profileNotifier.userName}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: getAdaptiveHeight(24, context),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '${profileNotifier.userEmail}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: getAdaptiveHeight(12, context),
-                            ),
-                          ),
-                        ],
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/home/profile'),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      RoundedNetworkImage(
+                        size: 60,
+                        image: profileNotifier.userImageUrl,
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: getAdaptiveWidth(15, context),
+                      ),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${profileNotifier.userName}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getAdaptiveHeight(24, context),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '${profileNotifier.userEmail}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getAdaptiveHeight(12, context),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: getAdaptiveHeight(10, context),
@@ -79,7 +82,7 @@ class HomePageDrawer extends StatelessWidget {
           DrawerCustomizedTile(
             icon: Icons.track_changes_rounded,
             text: 'Orders',
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, '/home/my_orders'),
           ),
           DrawerCustomizedTile(
             icon: Icons.list_rounded,
@@ -89,12 +92,8 @@ class HomePageDrawer extends StatelessWidget {
           DrawerCustomizedTile(
             icon: Icons.star_rate_rounded,
             text: 'Featured Products',
-            onPressed: () {},
-          ),
-          DrawerCustomizedTile(
-            icon: Icons.rate_review_rounded,
-            text: 'Ratings',
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.pushNamed(context, '/home/featured_products'),
           ),
           DrawerCustomizedTile(
             icon: Icons.contact_support,

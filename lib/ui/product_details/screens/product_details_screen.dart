@@ -173,7 +173,11 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
                   child: BlueButton(
                     text: 'Add to cart',
                     onPressed: () {
-                      cartNotifier.addToCart(widget.product, quantity);
+                      cartNotifier.addToCart(
+                        widget.product,
+                        quantity,
+                        context,
+                      );
                       Navigator.pop(context);
                     },
                   ),
@@ -185,7 +189,11 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
                   child: BlueButton(
                     text: 'Buy Now',
                     onPressed: () {
-                      cartNotifier.addToCart(widget.product, quantity);
+                      cartNotifier.addToCart(
+                        widget.product,
+                        quantity,
+                        context,
+                      );
                       Navigator.pushReplacementNamed(context, '/home/my_cart');
                     },
                   ),

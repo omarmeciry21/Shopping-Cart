@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/core/models/order.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/my_cart/widgets/cart_item_list_widget.dart';
+import 'package:my_shop_app/ui/submit_order/screens/submit_order_screen.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
 import 'package:my_shop_app/ui/widgets/blue_button.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +57,18 @@ class MyCartScreen extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                BlueButton(text: 'Checkout', onPressed: () {})
+                BlueButton(
+                  text: 'Checkout',
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubmitOrderScreen(
+                            cartItems: cartNotifier.items,
+                          ),
+                        ));
+                  },
+                ),
               ],
             ),
           ),

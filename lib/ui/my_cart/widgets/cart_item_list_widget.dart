@@ -69,7 +69,7 @@ class CartItemListWidget extends StatelessWidget {
                     height: getAdaptiveHeight(5, context),
                   ),
                   Text(
-                    '${currentProduct.moneySymbol}${currentProduct.price}',
+                    '${currentProduct.moneySymbol}${currentProduct.price} x ${cartNotifier.items[index].quantity}',
                     style: kTitleTextStyle(context).copyWith(fontSize: 18),
                   ),
                 ],
