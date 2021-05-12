@@ -1,3 +1,5 @@
+import 'package:my_shop_app/ui/about_us/screens/about_us_screen.dart';
+import 'package:my_shop_app/ui/contact_us/screens/contact_us_screen.dart';
 import 'package:my_shop_app/ui/favourites/screens/favourites_screen.dart';
 import 'package:my_shop_app/ui/featured/screens/featured_products_screen.dart';
 import 'package:my_shop_app/ui/forget_password/screens/confirm_email_screen.dart';
@@ -24,4 +26,6 @@ final routes = {
   '/home/favourites': (context) => FavouritesScreen(),
   '/home/my_orders': (context) => MyOrdersScreen(),
   '/home/featured_products': (context) => FeaturedProductsScreen(),
+  '/home/contact_us': (context) => ContactUsScreen(),
+  '/home/about_us': (context) => AboutUsScreen(),
 };

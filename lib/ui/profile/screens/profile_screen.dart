@@ -8,7 +8,6 @@ import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
 import 'package:my_shop_app/ui/widgets/rounded_network_image.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override

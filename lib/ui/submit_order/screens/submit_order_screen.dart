@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/cart_item.dart';
 import 'package:my_shop_app/ui/constants.dart';
-import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/blue_button.dart';

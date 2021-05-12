@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/core/models/order.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/my_cart/widgets/cart_item_list_widget.dart';

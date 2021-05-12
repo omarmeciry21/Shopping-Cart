@@ -85,11 +85,6 @@ class HomePageDrawer extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(context, '/home/my_orders'),
           ),
           DrawerCustomizedTile(
-            icon: Icons.list_rounded,
-            text: 'Categories',
-            onPressed: () {},
-          ),
-          DrawerCustomizedTile(
             icon: Icons.star_rate_rounded,
             text: 'Featured Products',
             onPressed: () =>
@@ -99,13 +94,13 @@ class HomePageDrawer extends StatelessWidget {
             icon: Icons.contact_support,
             text: 'Contact us',
             color: Colors.black45,
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, '/home/contact_us'),
           ),
           DrawerCustomizedTile(
             icon: Icons.info,
             text: 'About us',
             color: Colors.black45,
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, '/home/about_us'),
           ),
         ],
       ),

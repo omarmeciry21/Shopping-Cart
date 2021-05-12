@@ -74,6 +74,7 @@ class MyOrdersScreen extends StatelessWidget {
   }
 }
 
+// ignore: missing_return
 Widget getOrderStateIcon(OrderState state, BuildContext context) {
   switch (state) {
     case OrderState.Submitted:

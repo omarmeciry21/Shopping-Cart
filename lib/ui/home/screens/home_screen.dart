@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/drawer/home_page_drawer.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
+import 'package:my_shop_app/ui/home/widgets/categories_listview.dart';
 import 'package:my_shop_app/ui/home/widgets/explore_product_card.dart';
-import 'package:my_shop_app/ui/home/widgets/category_tabbed_list.dart';
 import 'package:my_shop_app/ui/product_details/screens/product_details_screen.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/cart_numbered_icon.dart';
@@ -24,6 +24,14 @@ class HomeScreen extends StatelessWidget {
         ),
         leading: ShowDrawerIcon(),
         actions: [
+          IconButton(
+            icon: Icon(
+              Icons.search_rounded,
+              color: kDarkBlue,
+              size: getAdaptiveHeight(30, context),
+            ),
+            onPressed: () {},
+          ),
           Padding(
             padding: EdgeInsets.only(
                 right: getAdaptiveWidth(5, context),
@@ -37,54 +45,64 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       drawer: HomePageDrawer(),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: kScreenPadding(context),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Explore',
-              style: kTitleTextStyle(context),
-            ),
-            SizedBox(
-              height: getAdaptiveHeight(15, context),
-            ),
-            Consumer<HomeNotifier>(
-              builder: (_, categoryNotifier, __) => Container(
-                width: double.infinity,
-                height: getAdaptiveHeight(130, context),
-                child: ListView.builder(
-                  itemCount: categoryNotifier.featuredProducts.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailsScreen(
-                              categoryNotifier.featuredProducts[index]),
-                        ),
-                      );
-                    },
-                    child: ExploreProductCard(
-                      color: categoryNotifier.featuredProducts[index].color,
-                      image: categoryNotifier.featuredProducts[index].imageUrl,
-                      price: categoryNotifier.featuredProducts[index].price
-                          .toString(),
-                      title: categoryNotifier.featuredProducts[index].title,
-                      priceSymbole:
-                          categoryNotifier.featuredProducts[index].moneySymbol,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Explore',
+                style: kTitleTextStyle(context),
+              ),
+              SizedBox(
+                height: getAdaptiveHeight(15, context),
+              ),
+              Consumer<HomeNotifier>(
+                builder: (_, categoryNotifier, __) => Container(
+                  width: double.infinity,
+                  height: getAdaptiveHeight(130, context),
+                  child: ListView.builder(
+                    itemCount: categoryNotifier.featuredProducts.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailsScreen(
+                                categoryNotifier.featuredProducts[index]),
+                          ),
+                        );
+                      },
+                      child: ExploreProductCard(
+                        color: categoryNotifier.featuredProducts[index].color,
+                        image:
+                            categoryNotifier.featuredProducts[index].imageUrl,
+                        price: categoryNotifier.featuredProducts[index].price
+                            .toString(),
+                        title: categoryNotifier.featuredProducts[index].title,
+                        priceSymbole: categoryNotifier
+                            .featuredProducts[index].moneySymbol,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: getAdaptiveHeight(20, context),
-            ),
-            CategoryTabbedList(),
-          ],
+              SizedBox(
+                height: getAdaptiveHeight(20, context),
+              ),
+              Text(
+                'Categories',
+                style: kTitleTextStyle(context),
+              ),
+              SizedBox(
+                height: getAdaptiveHeight(20, context),
+              ),
+              SingleChildScrollView(child: CategoriesListView()),
+            ],
+          ),
         ),
       ),
     );
