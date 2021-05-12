@@ -13,6 +13,7 @@ final products = [
     categoryId: '101',
     price: 253,
     color: kDarkOrange,
+    isFeatured: true,
   ),
   Product(
     productId: '2',

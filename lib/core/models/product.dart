@@ -4,7 +4,7 @@ class Product {
   final String productId, title, description, imageUrl, moneySymbol, categoryId;
   final num price;
   final Color color;
-  bool isFavourite = false, isFeatured = true;
+  bool isFavourite, isFeatured;
 
   Product({
     @required this.productId,
@@ -15,5 +15,7 @@ class Product {
     @required this.categoryId,
     @required this.price,
     @required this.color,
+    this.isFeatured = false,
+    this.isFavourite = false,
   });
 }

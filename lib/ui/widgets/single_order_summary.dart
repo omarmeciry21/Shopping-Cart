@@ -63,12 +63,12 @@ class OrderSummaryList extends StatelessWidget {
               children: cartItems.map((cartItem) {
                 final currentProduct = Provider.of<HomeNotifier>(context)
                     .getProductWithId(cartItem.productId);
-                return SingleLineOrderItem(
-                  title: currentProduct.title,
-                  price: currentProduct.price,
-                  quantity: cartItem.quantity,
-                  moneySign: currentProduct.moneySymbol,
-                );
+                return _buildSingleLineOrderItem(
+                    title: currentProduct.title,
+                    price: currentProduct.price,
+                    quantity: cartItem.quantity,
+                    moneySign: currentProduct.moneySymbol,
+                    context: context);
               }).toList(),
             ),
           ),
@@ -79,34 +79,28 @@ class OrderSummaryList extends StatelessWidget {
   }
 }
 
-class SingleLineOrderItem extends StatelessWidget {
-  const SingleLineOrderItem(
-      {Key key,
-      @required this.title,
-      @required this.price,
-      @required this.quantity,
-      @required this.moneySign})
-      : super(key: key);
-  final title, price, quantity, moneySign;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: getAdaptiveHeight(5, context)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            child: Text(
-              '$title',
-              style: kSingleLineTextStyle(context),
-            ),
-          ),
-          Text(
-            '$moneySign$price x $quantity',
+Widget _buildSingleLineOrderItem(
+    {@required title,
+    @required price,
+    @required quantity,
+    @required moneySign,
+    @required BuildContext context}) {
+  return Padding(
+    padding: EdgeInsets.only(top: getAdaptiveHeight(5, context)),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: Text(
+            '$title',
             style: kSingleLineTextStyle(context),
-          )
-        ],
-      ),
-    );
-  }
+          ),
+        ),
+        Text(
+          '$moneySign$price x $quantity',
+          style: kSingleLineTextStyle(context),
+        )
+      ],
+    ),
+  );
 }
