@@ -19,9 +19,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
   ProfileNotifier profileNotifier;
   String _imageUrl;
   Gender _gender;
+  bool isPasswordVisible = false;
   void fetchAccountData() {
     profileNotifier = Provider.of<ProfileNotifier>(context);
     _nameController.text = profileNotifier.userName;
@@ -52,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               profileNotifier.updateData(
                 name: _nameController.text,
                 mail: _emailController.text,
+                password: _passController.text,
                 address: _addressController.text,
                 phone: _phoneController.text,
                 imageUrl: _imageUrl,
@@ -119,6 +122,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 hint: 'email@example.com',
                 label: 'Email',
                 fontSize: 14,
+              ),
+              TextFieldProfileItem(
+                nameController: _passController,
+                hint: 'Enter your password',
+                label: 'Password',
+                fontSize: 14,
+                obscureText: !isPasswordVisible,
+                trailingIcon: IconButton(
+                  icon: Icon(
+                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: kDarkBlue,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
+                ),
               ),
               ProfileSingleItemRow(
                 firstChild: Text(

@@ -11,11 +11,15 @@ class TextFieldProfileItem extends StatelessWidget {
     @required this.label,
     this.fontSize = 18,
     this.maxLength = 40,
+    this.trailingIcon = null,
+    this.obscureText = false,
   });
 
   final TextEditingController nameController;
   final hint, label;
   final fontSize, maxLength;
+  final trailingIcon;
+  final obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +35,18 @@ class TextFieldProfileItem extends StatelessWidget {
       ),
       secondChild: TextField(
         controller: nameController,
+        obscureText: obscureText,
         maxLength: maxLength,
-        inputFormatters: [],
         style: TextStyle(
           color: kDarkBlue,
           fontWeight: FontWeight.bold,
           fontSize: getAdaptiveHeight(fontSize, context),
         ),
-        decoration:
-            InputDecoration(hintText: '$hint', contentPadding: EdgeInsets.zero),
+        decoration: InputDecoration(
+          hintText: '$hint',
+          contentPadding: EdgeInsets.zero,
+          suffixIcon: trailingIcon == null ? Container() : trailingIcon,
+        ),
       ),
     );
   }

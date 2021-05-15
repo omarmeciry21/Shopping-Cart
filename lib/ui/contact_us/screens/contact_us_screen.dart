@@ -6,6 +6,7 @@ import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/blue_button.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class ContactUsScreen extends StatefulWidget {
   @override
@@ -67,14 +68,32 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   child: BlueButton(
                       text: 'Send',
                       onPressed: () {
-                        submitMessage(
+                        bool messageState = contactUsMessage(
                             message: _messageController.text,
                             userEmail: Provider.of<ProfileNotifier>(context,
                                     listen: false)
                                 .userEmail);
-                        _messageController.clear();
-                        FocusManager.instance.primaryFocus.unfocus();
-                        Navigator.pop(context);
+                        if (messageState == true) {
+                          _messageController.clear();
+                          FocusManager.instance.primaryFocus.unfocus();
+                          Navigator.pop(context);
+                          Toast.show(
+                            'Sent Successfully!',
+                            context,
+                            duration: Toast.LENGTH_LONG,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                          );
+                        } else {
+                          FocusManager.instance.primaryFocus.unfocus();
+                          Toast.show(
+                            'An error occured! Please, try again.',
+                            context,
+                            duration: Toast.LENGTH_LONG,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                          );
+                        }
                       }),
                 ),
               ],
