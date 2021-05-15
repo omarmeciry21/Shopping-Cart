@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/data_access/data/user_data.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/widgets/drawer_customized_tile.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
@@ -13,7 +14,6 @@ class HomePageDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileNotifier = Provider.of<ProfileNotifier>(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -29,7 +29,7 @@ class HomePageDrawer extends StatelessWidget {
                     children: [
                       RoundedNetworkImage(
                         size: 60,
-                        image: profileNotifier.userImageUrl,
+                        image: user.imageUrl,
                       ),
                       SizedBox(
                         width: getAdaptiveWidth(15, context),
@@ -40,7 +40,7 @@ class HomePageDrawer extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '${profileNotifier.userName}',
+                              '${user.name}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: getAdaptiveHeight(24, context),
@@ -48,7 +48,7 @@ class HomePageDrawer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${profileNotifier.userEmail}',
+                              '${user.mail}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: getAdaptiveHeight(12, context),

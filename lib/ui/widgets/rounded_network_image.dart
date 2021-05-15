@@ -17,14 +17,15 @@ class RoundedNetworkImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(size / 2),
       child: Container(
-        color: Colors.black38,
+        color: Colors.black26,
         width: getAdaptiveHeight(size, context),
         height: getAdaptiveHeight(size, context),
-        child: image == null
+        child: image == null || image == ''
             ? Center(
                 child: Icon(
                   placeHolderIcon,
                   size: size / 2,
+                  color: Colors.black87,
                 ),
               )
             : Image.network(

@@ -14,12 +14,6 @@ class ProfileNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get userName => data.user.name;
-  String get userEmail => data.user.mail;
-  String get userAddress => data.user.address;
-  String get userPhone => data.user.phone;
-  String get userImageUrl => data.user.imageUrl;
-
   void updateData({
     @required String name,
     @required String mail,

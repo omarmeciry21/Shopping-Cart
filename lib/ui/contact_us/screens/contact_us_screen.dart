@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/data_access/data/user_data.dart';
 import 'package:my_shop_app/data_access/push_actions/actions.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
@@ -70,9 +71,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       onPressed: () {
                         bool messageState = contactUsMessage(
                             message: _messageController.text,
-                            userEmail: Provider.of<ProfileNotifier>(context,
-                                    listen: false)
-                                .userEmail);
+                            userEmail: user.mail);
                         if (messageState == true) {
                           _messageController.clear();
                           FocusManager.instance.primaryFocus.unfocus();

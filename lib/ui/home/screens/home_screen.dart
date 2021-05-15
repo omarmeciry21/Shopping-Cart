@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Explore',
+                  'Featured',
                   style: kTitleTextStyle(context),
                 ),
                 SizedBox(

@@ -129,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           name: '${_nameController.text}',
                           mail: '${_emailController.text}',
                           password: '${_passwordController.text}',
-                          imageUrl: null,
+                          imageUrl: '',
                           address: '',
                           phone: '',
                           gender: Gender.Male,

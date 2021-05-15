@@ -6,20 +6,21 @@ import 'package:my_shop_app/ui/size_config.dart';
 class TextFieldProfileItem extends StatelessWidget {
   const TextFieldProfileItem({
     Key key,
-    @required this.nameController,
+    @required this.controller,
     @required this.hint,
     @required this.label,
     this.fontSize = 18,
     this.maxLength = 40,
-    this.trailingIcon = null,
+    this.trailingIcon,
     this.obscureText = false,
+    this.errorText,
   });
 
-  final TextEditingController nameController;
+  final TextEditingController controller;
   final hint, label;
   final fontSize, maxLength;
   final trailingIcon;
-  final obscureText;
+  final obscureText, errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class TextFieldProfileItem extends StatelessWidget {
         ),
       ),
       secondChild: TextField(
-        controller: nameController,
+        controller: controller,
         obscureText: obscureText,
         maxLength: maxLength,
         style: TextStyle(
@@ -45,7 +46,8 @@ class TextFieldProfileItem extends StatelessWidget {
         decoration: InputDecoration(
           hintText: '$hint',
           contentPadding: EdgeInsets.zero,
-          suffixIcon: trailingIcon == null ? Container() : trailingIcon,
+          suffixIcon: trailingIcon,
+          errorText: errorText,
         ),
       ),
     );
