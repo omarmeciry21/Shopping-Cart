@@ -14,4 +14,5 @@ class Account {
     @required this.phone,
     @required this.gender,
   });
+  Account.clear();
 }

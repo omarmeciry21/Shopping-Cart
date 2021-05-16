@@ -14,13 +14,15 @@ class TextFieldProfileItem extends StatelessWidget {
     this.trailingIcon,
     this.obscureText = false,
     this.errorText,
+    this.onChanged,
+    this.isDisabled = false,
   });
 
   final TextEditingController controller;
   final hint, label;
   final fontSize, maxLength;
   final trailingIcon;
-  final obscureText, errorText;
+  final obscureText, errorText, onChanged, isDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +36,29 @@ class TextFieldProfileItem extends StatelessWidget {
           style: kSecondaryTextStyle(context),
         ),
       ),
-      secondChild: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        maxLength: maxLength,
-        style: TextStyle(
-          color: kDarkBlue,
-          fontWeight: FontWeight.bold,
-          fontSize: getAdaptiveHeight(fontSize, context),
-        ),
-        decoration: InputDecoration(
-          hintText: '$hint',
-          contentPadding: EdgeInsets.zero,
-          suffixIcon: trailingIcon,
-          errorText: errorText,
-        ),
+      secondChild: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              enabled: !isDisabled,
+              controller: controller,
+              obscureText: obscureText,
+              maxLength: maxLength,
+              onChanged: onChanged,
+              style: TextStyle(
+                color: kDarkBlue,
+                fontWeight: FontWeight.bold,
+                fontSize: getAdaptiveHeight(fontSize, context),
+              ),
+              decoration: InputDecoration(
+                hintText: '$hint',
+                contentPadding: EdgeInsets.zero,
+                errorText: errorText,
+              ),
+            ),
+          ),
+          trailingIcon == null ? Container() : trailingIcon
+        ],
       ),
     );
   }

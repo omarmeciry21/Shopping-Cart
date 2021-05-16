@@ -67,6 +67,10 @@ class PhoneNumberRegexValidator extends RegexValidator {
                 "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}\$");
 }
 
+class PasswordRegexValidator extends RegexValidator {
+  PasswordRegexValidator() : super(regexSource: "^[a-zA-Z0-9]{8,}\$");
+}
+
 String nameValidityErrorText(String name) {
   if (name.isEmpty)
     return 'Name can\'t be empty!';
@@ -74,9 +78,11 @@ String nameValidityErrorText(String name) {
     return null;
 }
 
-String passwordValidityErrorText(String name) {
-  if (name.isEmpty)
+String passwordValidityErrorText(String password) {
+  if (password.isEmpty)
     return 'Password can\'t be empty!';
+  else if (!PasswordRegexValidator().isValid(password))
+    return 'Weak password. 8 at least with one lowercase, uppercase & \na number.';
   else
     return null;
 }
@@ -85,7 +91,7 @@ String emailValidityErrorText(String email) {
   if (email.isEmpty)
     return 'Email can\'t be empty!';
   else if (!EmailSubmitRegexValidator().isValid(email)) {
-    return 'Invalid Email Format! Correct format: email@example.com';
+    return 'Invalid Email! Correct format: email@example.com';
   } else
     return null;
 }

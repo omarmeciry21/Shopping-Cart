@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/user.dart';
 import 'package:my_shop_app/data_access/data/user_data.dart';
 import 'package:my_shop_app/ui/constants.dart';
-import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
-import 'package:my_shop_app/ui/validators.dart';
 import '../data/user_data.dart' as data;
 
 bool contactUsMessage({@required String message, @required String userEmail}) {
@@ -57,6 +55,43 @@ Future<bool> signInUser(String email, String password) async {
     return false;
 }
 
-updateUserData(Account updatedUser) {
-  data.user = updatedUser;
+Future<bool> updateUserData(Account updatedUser) async {
+  if (updatedUser != null) {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc('${FirebaseAuth.instance.currentUser.uid}')
+        .set({
+      'name': updatedUser.name,
+      'email': updatedUser.mail,
+      'password': updatedUser.password,
+      'address': updatedUser.address,
+      'phone': updatedUser.phone,
+      'gender': updatedUser.gender == Gender.Male ? 'Male' : 'Female',
+      'imageUrl': updatedUser.imageUrl,
+    });
+    data.user = updatedUser;
+    return true;
+  } else
+    return false;
+}
+
+Future<void> deleteUserImage() async {
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc('${FirebaseAuth.instance.currentUser.uid}')
+      .set({
+    'name': data.user.name,
+    'email': data.user.mail,
+    'password': data.user.password,
+    'address': data.user.address,
+    'phone': data.user.phone,
+    'gender': data.user.gender == Gender.Male ? 'Male' : 'Female',
+    'imageUrl': '',
+  });
+  data.user.imageUrl = '';
+}
+
+Future<void> signUserOut() async {
+  await FirebaseAuth.instance.signOut();
+  data.user = Account.clear();
 }

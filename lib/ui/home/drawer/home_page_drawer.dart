@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/data_access/data/user_data.dart';
+import 'package:my_shop_app/data_access/push_actions/actions.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/widgets/drawer_customized_tile.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
@@ -29,7 +30,7 @@ class HomePageDrawer extends StatelessWidget {
                     children: [
                       RoundedNetworkImage(
                         size: 60,
-                        image: user.imageUrl,
+                        image: Provider.of<ProfileNotifier>(context).imageUrl,
                       ),
                       SizedBox(
                         width: getAdaptiveWidth(15, context),
@@ -101,6 +102,15 @@ class HomePageDrawer extends StatelessWidget {
             text: 'About us',
             color: Colors.black45,
             onPressed: () => Navigator.pushNamed(context, '/home/about_us'),
+          ),
+          DrawerCustomizedTile(
+            icon: Icons.exit_to_app_rounded,
+            text: 'Sign out',
+            color: Colors.black45,
+            onPressed: () {
+              signUserOut();
+              Navigator.pushReplacementNamed(context, '/login');
+            },
           ),
         ],
       ),

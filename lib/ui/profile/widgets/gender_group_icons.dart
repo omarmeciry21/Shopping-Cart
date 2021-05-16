@@ -22,9 +22,7 @@ class GenderGroupIcons extends StatelessWidget {
             iconSize: 25,
             color: genderNotifer.userGender == Gender.Male ? kDarkOrange : null,
             icon: FontAwesomeIcons.mars,
-            onPressed: () {
-              genderNotifer.toggleGender(Gender.Male);
-            },
+            onPressed: null,
           ),
           SizedBox(
             width: getAdaptiveWidth(15, context),
@@ -35,9 +33,7 @@ class GenderGroupIcons extends StatelessWidget {
             color:
                 genderNotifer.userGender == Gender.Female ? kDarkOrange : null,
             icon: FontAwesomeIcons.venus,
-            onPressed: () {
-              genderNotifer.toggleGender(Gender.Female);
-            },
+            onPressed: null,
           ),
         ],
       ),
