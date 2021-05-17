@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:my_shop_app/core/models/user.dart';
-import 'package:my_shop_app/data_access/push_actions/actions.dart';
+import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/register/notifiers/register_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
-import 'package:my_shop_app/ui/validators.dart';
 import 'package:my_shop_app/ui/widgets/orange_button.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -20,6 +19,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool progressShown = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    Provider.of<RegisterNotifier>(context, listen: false).resetErrors();
+  }
 
   @override
   Widget build(BuildContext context) {

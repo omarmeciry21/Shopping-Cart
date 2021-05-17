@@ -1,19 +1,18 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:my_shop_app/data_access/data/user_data.dart';
-import 'package:my_shop_app/data_access/push_actions/actions.dart';
+import 'package:my_shop_app/data_access/manage_data/user.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_shop_app/ui/constants.dart';
-import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
 import 'package:my_shop_app/ui/profile/widgets/gender_group_icons.dart';
 import 'package:my_shop_app/ui/profile/widgets/profile_single_item_row.dart';
 import 'package:my_shop_app/ui/profile/widgets/textfield_profile_item.dart';
 import 'package:my_shop_app/ui/size_config.dart';
-import 'package:my_shop_app/ui/validators.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
 import 'package:my_shop_app/ui/widgets/rounded_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfileScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -25,13 +24,13 @@ class ProfileScreen extends StatelessWidget {
   String _imageUrl;
   Gender _gender;
   void fetchAccountData() {
-    _nameController.text = user.name;
-    _emailController.text = user.mail;
-    _addressController.text = user.address;
-    _passController.text = user.password;
-    _phoneController.text = user.phone;
-    _imageUrl = user.imageUrl;
-    _gender = user.gender;
+    _nameController.text = dataUser.name;
+    _emailController.text = dataUser.mail;
+    _addressController.text = dataUser.address;
+    _passController.text = dataUser.password;
+    _phoneController.text = dataUser.phone;
+    _imageUrl = dataUser.imageUrl;
+    _gender = dataUser.gender;
   }
 
   @override
@@ -279,7 +278,38 @@ class EmailSection extends StatelessWidget {
   }
 }
 
-class ImageSection extends StatelessWidget {
+class ImageSection extends StatefulWidget {
+  @override
+  _ImageSectionState createState() => _ImageSectionState();
+}
+
+class _ImageSectionState extends State<ImageSection> {
+  void uploadImage() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    File _image;
+    if (pickedFile != null) {
+      print(pickedFile.path);
+      _image = File(pickedFile.path);
+      String fileNameOnStorage =
+          DateTime.now().microsecondsSinceEpoch.toString();
+      final ref =
+          FirebaseStorage.instance.ref('profile_images/$fileNameOnStorage.jpg');
+      await ref.putFile(_image);
+      String url = await ref.getDownloadURL();
+      Provider.of<ProfileNotifier>(context, listen: false).uploadImage(url);
+      setState(() {});
+      Toast.show(
+        'Image Uploaded Successfully!',
+        context,
+        textColor: Colors.white.withOpacity(0.75),
+        backgroundColor: Colors.green.withOpacity(0.75),
+      );
+    } else {
+      print('No image selected.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ProfileSingleItemRow(
@@ -295,10 +325,13 @@ class ImageSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(
-            child: RoundedNetworkImage(
-              size: getAdaptiveHeight(70, context),
-              image:
-                  Provider.of<ProfileNotifier>(context, listen: false).imageUrl,
+            child: GestureDetector(
+              onTap: () => uploadImage(),
+              child: RoundedNetworkImage(
+                size: getAdaptiveHeight(70, context),
+                image: Provider.of<ProfileNotifier>(context, listen: false)
+                    .imageUrl,
+              ),
             ),
           ),
           SizedBox(
@@ -306,12 +339,15 @@ class ImageSection extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                'Upload Image',
-                style: TextStyle(
-                  fontSize: getAdaptiveHeight(16, context),
-                  color: kDarkBlue.withOpacity(0.7),
+              GestureDetector(
+                child: Text(
+                  'Upload Image',
+                  style: TextStyle(
+                    fontSize: getAdaptiveHeight(16, context),
+                    color: kDarkBlue.withOpacity(0.7),
+                  ),
                 ),
+                onTap: () => uploadImage(),
               ),
               SizedBox(
                 width: getAdaptiveWidth(8, context),
@@ -320,7 +356,7 @@ class ImageSection extends StatelessWidget {
                 onTap: () {
                   showDialog(
                       context: context,
-                      builder: (context) => AlertDialog(
+                      builder: (_) => AlertDialog(
                             title: Text('Delete Profile Image'),
                             content: Text(
                                 'Are you sure you want to delete this image?'),
@@ -330,9 +366,11 @@ class ImageSection extends StatelessWidget {
                                 child: Text('No'),
                               ),
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   try {
-                                    deleteUserImage();
+                                    Navigator.pop(context);
+                                    await deleteUserImage();
+                                    setState(() {});
                                     Toast.show(
                                       'Image Deleted Successfully!',
                                       context,
@@ -340,8 +378,9 @@ class ImageSection extends StatelessWidget {
                                       backgroundColor:
                                           Colors.green.withOpacity(0.75),
                                     );
-                                    Navigator.pop(context);
-                                  } catch (e) {}
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                 },
                                 child: Text('Yes'),
                               ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/data_access/data/user_data.dart';
-import 'package:my_shop_app/data_access/push_actions/actions.dart';
+import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/widgets/drawer_customized_tile.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
@@ -41,7 +40,7 @@ class HomePageDrawer extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '${user.name}',
+                              '${Provider.of<ProfileNotifier>(context).userName}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: getAdaptiveHeight(24, context),
@@ -49,7 +48,7 @@ class HomePageDrawer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${user.mail}',
+                              '${Provider.of<ProfileNotifier>(context).userMail}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: getAdaptiveHeight(12, context),

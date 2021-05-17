@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/data_access/data/user_data.dart';
-import 'package:my_shop_app/data_access/push_actions/actions.dart';
+import 'package:my_shop_app/data_access/manage_data/contact_us.dart';
 import 'package:my_shop_app/ui/constants.dart';
-import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/blue_button.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
-import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class ContactUsScreen extends StatefulWidget {
@@ -70,8 +67,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       text: 'Send',
                       onPressed: () {
                         bool messageState = contactUsMessage(
-                            message: _messageController.text,
-                            userEmail: user.mail);
+                          message: _messageController.text,
+                        );
                         if (messageState == true) {
                           _messageController.clear();
                           FocusManager.instance.primaryFocus.unfocus();

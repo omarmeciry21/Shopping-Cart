@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/category.dart';
 import 'package:my_shop_app/core/models/product.dart';
 import 'package:my_shop_app/data_access/data/categories.dart' as data;
-import 'package:my_shop_app/data_access/data/products.dart' as data;
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 
 class HomeNotifier extends ChangeNotifier {
   int selectedIndex = 0;
@@ -27,7 +27,7 @@ class HomeNotifier extends ChangeNotifier {
   Product getProductWithId(String productId) =>
       products.where((element) => element.productId == productId).first;
   List<Category> get categories => data.categories;
-  List<Product> get products => data.products;
+  List<Product> get products => dataProducts;
   List<Product> get favourites =>
       products.where((element) => element.isFavourite == true).toList();
 
@@ -49,10 +49,11 @@ class HomeNotifier extends ChangeNotifier {
           content: Text('Are you sure you want to unfavourite this product?'),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  'No',
-                ),),
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'No',
+              ),
+            ),
             TextButton(
               onPressed: () {
                 toggleFavourite(productId);

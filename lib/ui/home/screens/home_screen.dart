@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/drawer/home_page_drawer.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
@@ -23,6 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void clearSearchingData() {
     _searchText = '';
     filteredProducts = [];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProducts();
   }
 
   @override

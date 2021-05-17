@@ -2,14 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/user.dart';
-import 'package:my_shop_app/data_access/data/user_data.dart';
 import 'package:my_shop_app/ui/constants.dart';
-import '../data/user_data.dart' as data;
 
-bool contactUsMessage({@required String message, @required String userEmail}) {
-  print('$message submitted by $userEmail');
-  return true;
-}
+Account dataUser = Account(
+    name: '',
+    mail: '',
+    password: '',
+    imageUrl: '',
+    address: '',
+    phone: '',
+    gender: Gender.Male);
 
 Future<bool> createNewUser(Account newUser, BuildContext context) async {
   UserCredential user = await FirebaseAuth.instance
@@ -25,7 +27,7 @@ Future<bool> createNewUser(Account newUser, BuildContext context) async {
       'gender': newUser.gender == Gender.Male ? 'Male' : 'Female',
       'imageUrl': newUser.imageUrl,
     });
-    data.user = newUser;
+    dataUser = newUser;
     return true;
   } else
     return false;
@@ -34,12 +36,12 @@ Future<bool> createNewUser(Account newUser, BuildContext context) async {
 Future<bool> signInUser(String email, String password) async {
   UserCredential signedUser = await FirebaseAuth.instance
       .signInWithEmailAndPassword(email: email, password: password);
-  if (data.user != null) {
+  if (dataUser != null) {
     DocumentSnapshot userData = await FirebaseFirestore.instance
         .collection('users')
         .doc('${signedUser.user.uid}')
         .get();
-    data.user = Account(
+    dataUser = Account(
       name: userData.get('name').toString(),
       mail: userData.get('email').toString(),
       password: userData.get('password').toString(),
@@ -69,7 +71,7 @@ Future<bool> updateUserData(Account updatedUser) async {
       'gender': updatedUser.gender == Gender.Male ? 'Male' : 'Female',
       'imageUrl': updatedUser.imageUrl,
     });
-    data.user = updatedUser;
+    dataUser = updatedUser;
     return true;
   } else
     return false;
@@ -80,18 +82,34 @@ Future<void> deleteUserImage() async {
       .collection('users')
       .doc('${FirebaseAuth.instance.currentUser.uid}')
       .set({
-    'name': data.user.name,
-    'email': data.user.mail,
-    'password': data.user.password,
-    'address': data.user.address,
-    'phone': data.user.phone,
-    'gender': data.user.gender == Gender.Male ? 'Male' : 'Female',
+    'name': dataUser.name,
+    'email': dataUser.mail,
+    'password': dataUser.password,
+    'address': dataUser.address,
+    'phone': dataUser.phone,
+    'gender': dataUser.gender == Gender.Male ? 'Male' : 'Female',
     'imageUrl': '',
   });
-  data.user.imageUrl = '';
+  dataUser.imageUrl = '';
+}
+
+Future<void> updateImage(String url) async {
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc('${FirebaseAuth.instance.currentUser.uid}')
+      .set({
+    'name': dataUser.name,
+    'email': dataUser.mail,
+    'password': dataUser.password,
+    'address': dataUser.address,
+    'phone': dataUser.phone,
+    'gender': dataUser.gender == Gender.Male ? 'Male' : 'Female',
+    'imageUrl': url,
+  });
+  dataUser.imageUrl = url;
 }
 
 Future<void> signUserOut() async {
   await FirebaseAuth.instance.signOut();
-  data.user = Account.clear();
+  dataUser = Account.clear();
 }

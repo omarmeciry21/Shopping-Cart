@@ -36,6 +36,7 @@ dependencies:
   provider: ^5.0.0
   splash_screen_view: ^1.0.3
   toast: ^0.1.5
+  firebase_storage: ^8.0.6
 
 dev_dependencies:
   flutter_test:

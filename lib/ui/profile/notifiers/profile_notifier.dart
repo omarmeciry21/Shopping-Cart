@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_shop_app/core/models/user.dart';
-import 'package:my_shop_app/data_access/data/user_data.dart' as data;
-import 'package:my_shop_app/data_access/push_actions/actions.dart';
+import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/validators.dart';
 import 'package:toast/toast.dart';
 
 class ProfileNotifier extends ChangeNotifier {
-  Gender get userGender => data.user.gender;
-  String get imageUrl => data.user.imageUrl;
+  Gender get userGender => dataUser.gender;
+  String get imageUrl => dataUser.imageUrl;
+  String get userName => dataUser.name;
+  String get userMail => dataUser.mail;
+
+  void uploadImage(String url) {
+    dataUser.imageUrl = url;
+    updateImage(url);
+    notifyListeners();
+  }
 
   void toggleGender(Gender gender) {
-    data.user.gender = gender;
+    dataUser.gender = gender;
     notifyListeners();
   }
 
@@ -77,6 +84,13 @@ class ProfileNotifier extends ChangeNotifier {
   bool isPasswordVisible = false;
   void togglePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
+    notifyListeners();
+  }
+
+  int imageProgress;
+  void updateImageProgress(int completed, int total) {
+    double progress = completed / total * 100;
+    imageProgress = progress.toInt();
     notifyListeners();
   }
 }
