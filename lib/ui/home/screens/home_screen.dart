@@ -20,16 +20,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _searchText = '';
   List<Product> filteredProducts = [];
-  bool isSearching = false;
   void clearSearchingData() {
     _searchText = '';
     filteredProducts = [];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchProducts();
   }
 
   @override
@@ -49,10 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
               size: getAdaptiveHeight(30, context),
             ),
             onPressed: () {
-              setState(() {
-                isSearching = true;
-                clearSearchingData();
-              });
+              Provider.of<HomeNotifier>(context, listen: false)
+                  .toggleSearching(true);
             },
           ),
           Padding(
@@ -74,20 +65,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAppBarLeading() {
-    return !isSearching
+    return !Provider.of<HomeNotifier>(context).isSearching
         ? ShowDrawerIcon()
         : ElevatedRoundedIconButton(
             icon: Icons.close,
             onPressed: () {
-              setState(() {
-                isSearching = false;
-              });
+              Provider.of<HomeNotifier>(context, listen: false)
+                  .toggleSearching(false);
             },
           );
   }
 
   Widget _buildAppBarTitle(BuildContext context) {
-    return !isSearching
+    return !Provider.of<HomeNotifier>(context).isSearching
         ? Text(
             'Explore',
             style: kScreenTitleTextStyle(context),
@@ -151,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ProductDetailsScreen(
+                  builder: (context) => ProductDetailsScreen(
                     filteredProducts[index],
                   ),
                 ),
@@ -162,65 +152,76 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buidHome(BuildContext context) {
-    return isSearching
+    return Provider.of<HomeNotifier>(context).isSearching
         ? _buildList()
-        : SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Featured',
-                  style: kTitleTextStyle(context),
-                ),
-                SizedBox(
-                  height: getAdaptiveHeight(15, context),
-                ),
-                Consumer<HomeNotifier>(
-                  builder: (_, categoryNotifier, __) => Container(
-                    width: double.infinity,
-                    height: getAdaptiveHeight(130, context),
-                    child: ListView.builder(
-                      itemCount: categoryNotifier.featuredProducts.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetailsScreen(
-                                  categoryNotifier.featuredProducts[index]),
-                            ),
-                          );
-                        },
-                        child: ExploreProductCard(
-                          color: categoryNotifier.featuredProducts[index].color,
-                          image:
-                              categoryNotifier.featuredProducts[index].imageUrl,
-                          price: categoryNotifier.featuredProducts[index].price
-                              .toString(),
-                          title: categoryNotifier.featuredProducts[index].title,
-                          priceSymbole: categoryNotifier
-                              .featuredProducts[index].moneySymbol,
-                        ),
-                      ),
+        : _buildHomePage();
+  }
+
+  Widget _buildHomePage() {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Featured',
+            style: kTitleTextStyle(context),
+          ),
+          SizedBox(
+            height: getAdaptiveHeight(15, context),
+          ),
+          Container(
+            width: double.infinity,
+            height: getAdaptiveHeight(130, context),
+            child: ListView.builder(
+              itemCount:
+                  Provider.of<HomeNotifier>(context).featuredProducts.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ProductDetailsScreen(
+                      Provider.of<HomeNotifier>(context)
+                          .featuredProducts[index],
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: getAdaptiveHeight(20, context),
+                child: ExploreProductCard(
+                  color: Provider.of<HomeNotifier>(context)
+                      .featuredProducts[index]
+                      .color,
+                  image: Provider.of<HomeNotifier>(context)
+                      .featuredProducts[index]
+                      .imageUrl,
+                  price: Provider.of<HomeNotifier>(context)
+                      .featuredProducts[index]
+                      .price
+                      .toString(),
+                  title: Provider.of<HomeNotifier>(context)
+                      .featuredProducts[index]
+                      .title,
+                  priceSymbole: Provider.of<HomeNotifier>(context)
+                      .featuredProducts[index]
+                      .moneySymbol,
                 ),
-                Text(
-                  'Categories',
-                  style: kTitleTextStyle(context),
-                ),
-                SizedBox(
-                  height: getAdaptiveHeight(20, context),
-                ),
-                SingleChildScrollView(child: CategoriesListView()),
-              ],
+              ),
             ),
-          );
+          ),
+          SizedBox(
+            height: getAdaptiveHeight(20, context),
+          ),
+          Text(
+            'Categories',
+            style: kTitleTextStyle(context),
+          ),
+          SizedBox(
+            height: getAdaptiveHeight(20, context),
+          ),
+          SingleChildScrollView(child: CategoriesListView()),
+        ],
+      ),
+    );
   }
 }
 

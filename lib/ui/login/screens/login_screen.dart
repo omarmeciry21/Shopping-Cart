@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/login/notifiers/password_notifier.dart';
@@ -33,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           backgroundColor: Colors.white,
           body: Consumer<LoginNotifier>(
-            builder: (_, loginNotifier, __) => SafeArea(
+            builder: (context, loginNotifier, __) => SafeArea(
               child: Center(
                 child: ListView(
                   shrinkWrap: true,
@@ -116,12 +117,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             bool isSigned = await signInUser(
                                 _emailController.text,
                                 _passwordController.text);
-                            if (isSigned)
+                            if (isSigned) {
+                              await fetchProducts();
+                              await fetchFavourites();
+                              await fetchFeatured();
+
                               Toast.show('Signed in Successfully!', context,
                                   duration: Toast.LENGTH_LONG,
                                   textColor: Colors.white,
                                   backgroundColor: Colors.green);
-                            Navigator.pushReplacementNamed(context, '/home');
+                              Navigator.pushReplacementNamed(context, '/home');
+                            }
                           } catch (e) {
                             Toast.show(
                                 'Account Not Found! Please, Register a new account first.',
@@ -130,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 textColor: Colors.white,
                                 backgroundColor: Colors.red);
                           }
+
                           setState(() {
                             progressShown = false;
                           });

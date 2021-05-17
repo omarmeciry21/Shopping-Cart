@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:my_shop_app/core/models/user.dart';
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/register/notifiers/register_notifier.dart';
@@ -151,6 +152,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               newUser,
                               context,
                             );
+                            await fetchProducts();
+                            await fetchFavourites();
+                            await fetchFeatured();
                             Toast.show('Created Successfully!', context,
                                 duration: Toast.LENGTH_LONG,
                                 textColor: Colors.white,

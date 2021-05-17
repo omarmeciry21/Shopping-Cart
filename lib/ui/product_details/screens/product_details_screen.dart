@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
+import 'package:my_shop_app/ui/home/screens/home_screen.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 
 import 'package:my_shop_app/ui/size_config.dart';
@@ -77,7 +79,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
 class ProductDetailsActions extends StatefulWidget {
   final Product product;
-  final favouritesNotifier;
+  final HomeNotifier favouritesNotifier;
 
   const ProductDetailsActions(this.product, this.favouritesNotifier);
 
@@ -144,8 +146,43 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () => widget.favouritesNotifier
-                      .makeFavourite(widget.product.productId, context),
+                  onTap: () {
+                    final bool currentState = dataProducts
+                        .where((element) =>
+                            element.productId == widget.product.productId)
+                        .first
+                        .isFavourite;
+                    if (currentState == true) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Unfavourite Product'),
+                          content: Text(
+                              'Are you sure you want to unfavourite this product?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                'No',
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Provider.of<HomeNotifier>(context,
+                                        listen: false)
+                                    .toggleFavouriteButton(
+                                        widget.product.productId);
+                                Navigator.pop(context);
+                              },
+                              child: Text('Yes'),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else
+                      Provider.of<HomeNotifier>(context, listen: false)
+                          .toggleFavouriteButton(widget.product.productId);
+                  },
                   child: Container(
                     width: getAdaptiveHeight(35, context),
                     height: getAdaptiveHeight(35, context),
@@ -160,7 +197,8 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
                     ),
                     child: Icon(
                       Icons.favorite_rounded,
-                      color: widget.product.isFavourite
+                      color: Provider.of<HomeNotifier>(context, listen: false)
+                              .isFavourite(widget.product.productId)
                           ? kDarkBlue
                           : Colors.black45,
                     ),

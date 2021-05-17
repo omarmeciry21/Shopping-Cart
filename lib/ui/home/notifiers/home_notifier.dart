@@ -12,8 +12,7 @@ class HomeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Product> get featuredProducts =>
-      products.where((element) => element.isFeatured == true).toList();
+  List<Product> get featuredProducts => dataProductsFeatured;
 
   List<Product> get selectedCategoryProducts =>
       categories[selectedIndex].categoryId == '###'
@@ -23,52 +22,19 @@ class HomeNotifier extends ChangeNotifier {
                   element.categoryId == categories[selectedIndex].categoryId)
               .toList();
 
-  Product getProductAt(int index) => products.elementAt(index);
   Product getProductWithId(String productId) =>
       products.where((element) => element.productId == productId).first;
   List<Category> get categories => data.categories;
   List<Product> get products => dataProducts;
-  List<Product> get favourites =>
-      products.where((element) => element.isFavourite == true).toList();
+  List<Product> get favourites => dataProductsFavourites;
 
   bool isFavourite(String productId) => products
       .where((element) => element.productId == productId)
       .first
       .isFavourite;
 
-  Future<void> makeFavourite(String productId, BuildContext context) async {
-    final bool currentState = products
-        .where((element) => element.productId == productId)
-        .first
-        .isFavourite;
-    if (currentState == true)
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Unfavourite Product'),
-          content: Text('Are you sure you want to unfavourite this product?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                'No',
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                toggleFavourite(productId);
-                Navigator.pop(context);
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        ),
-      );
-    else
-      toggleFavourite(productId);
-  }
-
-  void toggleFavourite(String productId) {
+  void toggleFavouriteButton(String productId) async {
+    await toggleFavourite(productId);
     products
             .where((element) => element.productId == productId)
             .first
@@ -77,6 +43,14 @@ class HomeNotifier extends ChangeNotifier {
             .where((element) => element.productId == productId)
             .first
             .isFavourite;
+
+    notifyListeners();
+  }
+
+  bool isSearching = false;
+
+  toggleSearching(bool value) {
+    isSearching = value;
     notifyListeners();
   }
 }

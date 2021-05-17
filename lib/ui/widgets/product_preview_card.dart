@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/product_details/screens/product_details_screen.dart';
 import 'package:my_shop_app/ui/size_config.dart';
@@ -72,14 +73,44 @@ class ProductPreviewCard extends StatelessWidget {
               ),
             ),
             ElevatedRoundedIconButton(
-              onPressed: () => Provider.of<HomeNotifier>(context, listen: false)
-                  .makeFavourite(currentProduct.productId, context),
+              onPressed: () {
+                final bool currentState = dataProducts
+                    .where((element) =>
+                        element.productId == currentProduct.productId)
+                    .first
+                    .isFavourite;
+                if (currentState == true) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Unfavourite Product'),
+                      content: Text(
+                          'Are you sure you want to unfavourite this product?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            'No',
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Provider.of<HomeNotifier>(context, listen: false)
+                                .toggleFavouriteButton(
+                                    currentProduct.productId);
+                            Navigator.pop(context);
+                          },
+                          child: Text('Yes'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else
+                  Provider.of<HomeNotifier>(context, listen: false)
+                      .toggleFavouriteButton(currentProduct.productId);
+              },
               icon: Provider.of<HomeNotifier>(context)
-                      .products
-                      .where((element) => element == currentProduct)
-                      .toList()
-                      .first
-                      .isFavourite
+                      .isFavourite(currentProduct.productId)
                   ? Icons.favorite_rounded
                   : Icons.favorite_border_rounded,
             ),
