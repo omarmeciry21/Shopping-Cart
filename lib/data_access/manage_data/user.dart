@@ -34,45 +34,53 @@ Future<bool> createNewUser(Account newUser, BuildContext context) async {
 }
 
 Future<bool> signInUser(String email, String password) async {
-  UserCredential signedUser = await FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: email, password: password);
-  if (dataUser != null) {
-    DocumentSnapshot userData = await FirebaseFirestore.instance
-        .collection('users')
-        .doc('${signedUser.user.uid}')
-        .get();
-    dataUser = Account(
-      name: userData.get('name').toString(),
-      mail: userData.get('email').toString(),
-      password: userData.get('password').toString(),
-      imageUrl: userData.get('imageUrl').toString(),
-      address: userData.get('address').toString(),
-      phone: userData.get('phone').toString(),
-      gender: userData.get('gender').toString() == 'Male'
-          ? Gender.Male
-          : Gender.Female,
-    );
-    return true;
-  } else
-    return false;
+  try {
+    UserCredential signedUser = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    if (dataUser != null) {
+      DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc('${signedUser.user.uid}')
+          .get();
+      dataUser = Account(
+        name: userData.get('name').toString(),
+        mail: userData.get('email').toString(),
+        password: userData.get('password').toString(),
+        imageUrl: userData.get('imageUrl').toString(),
+        address: userData.get('address').toString(),
+        phone: userData.get('phone').toString(),
+        gender: userData.get('gender').toString() == 'Male'
+            ? Gender.Male
+            : Gender.Female,
+      );
+      return true;
+    } else
+      return false;
+  } catch (e) {
+    print(e);
+  }
 }
 
 Future<bool> updateUserData(Account updatedUser) async {
   if (updatedUser != null) {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc('${FirebaseAuth.instance.currentUser.uid}')
-        .set({
-      'name': updatedUser.name,
-      'email': updatedUser.mail,
-      'password': updatedUser.password,
-      'address': updatedUser.address,
-      'phone': updatedUser.phone,
-      'gender': updatedUser.gender == Gender.Male ? 'Male' : 'Female',
-      'imageUrl': updatedUser.imageUrl,
-    });
-    dataUser = updatedUser;
-    return true;
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc('${FirebaseAuth.instance.currentUser.uid}')
+          .set({
+        'name': updatedUser.name,
+        'email': updatedUser.mail,
+        'password': updatedUser.password,
+        'address': updatedUser.address,
+        'phone': updatedUser.phone,
+        'gender': updatedUser.gender == Gender.Male ? 'Male' : 'Female',
+        'imageUrl': updatedUser.imageUrl,
+      });
+      dataUser = updatedUser;
+      return true;
+    } catch (e) {
+      print(e);
+    }
   } else
     return false;
 }

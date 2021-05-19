@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/drawer/home_page_drawer.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
@@ -20,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _searchText = '';
   List<Product> filteredProducts = [];
+
   void clearSearchingData() {
     _searchText = '';
     filteredProducts = [];
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: _buildAppBarTitle(context),
+        title: _buildAppBarTitle(),
         leading: _buildAppBarLeading(),
         actions: [
           IconButton(
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: HomePageDrawer(),
       body: Padding(
         padding: kScreenPadding(context),
-        child: _buidHome(context),
+        child: _buidHome(),
       ),
     );
   }
@@ -76,16 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
           );
   }
 
-  Widget _buildAppBarTitle(BuildContext context) {
+  Widget _buildAppBarTitle() {
     return !Provider.of<HomeNotifier>(context).isSearching
         ? Text(
             'Explore',
             style: kScreenTitleTextStyle(context),
           )
-        : _buildSearchTextField(context);
+        : _buildSearchTextField();
   }
 
-  TextField _buildSearchTextField(BuildContext context) {
+  TextField _buildSearchTextField() {
     return TextField(
       decoration: InputDecoration(hintText: 'Search'),
       onChanged: (value) {
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buidHome(BuildContext context) {
+  Widget _buidHome() {
     return Provider.of<HomeNotifier>(context).isSearching
         ? _buildList()
         : _buildHomePage();
@@ -238,38 +238,3 @@ class ShowDrawerIcon extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-/*Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    right: getAdaptiveWidth(10, context),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: getAdaptiveWidth(15, context),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Colors.black.withOpacity(.3),
-                          offset: Offset(2, 2),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(25)),
-                  child: TextField(
-                    autofocus: false,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.search),
-                      border: InputBorder.none,
-                      hintText: 'Search',
-                    ),
-                  ),
-                ),
-              ), */
