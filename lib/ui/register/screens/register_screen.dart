@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:my_shop_app/core/models/user.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/register/notifiers/register_notifier.dart';
@@ -20,12 +19,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool progressShown = false;
-
-  @override
-  void dispose() {
-    super.dispose();
-    Provider.of<RegisterNotifier>(context, listen: false).resetErrors();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +77,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Enter your email.',
                           errorText: registerNotifier.emailError,
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            registerNotifier.onEmailChanged(value);
-                          });
-                        },
+                        onChanged: (value) =>
+                            registerNotifier.onEmailChanged(value),
                       ),
                     ),
                     SizedBox(
@@ -133,6 +123,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if ((registerNotifier.nameError != null ||
                             registerNotifier.passwordError != null ||
                             registerNotifier.emailError != null)) {
+                        } else if (_emailController.text.isEmpty ||
+                            _nameController.text.isEmpty ||
+                            _passwordController.text.isEmpty) {
+                          Toast.show(
+                              'Please, fill up the empty fields.', context,
+                              duration: Toast.LENGTH_LONG,
+                              textColor: Colors.white,
+                              backgroundColor: Colors.red.withOpacity(0.75));
                         } else {
                           setState(() {
                             registerNotifier.resetErrors();
@@ -152,19 +150,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               newUser,
                               context,
                             );
-                            await fetchProducts();
-                            await fetchFavourites();
-                            await fetchFeatured();
-                            Toast.show('Created Successfully!', context,
-                                duration: Toast.LENGTH_LONG,
-                                textColor: Colors.white,
-                                backgroundColor: Colors.green);
-                            Navigator.pushReplacementNamed(context, '/home');
+                            Provider.of<RegisterNotifier>(context,
+                                    listen: false)
+                                .resetErrors();
                           } catch (e) {
                             Toast.show('Email already exists!', context,
                                 duration: Toast.LENGTH_LONG,
                                 textColor: Colors.white,
-                                backgroundColor: Colors.red);
+                                backgroundColor: Colors.red.withOpacity(0.75));
                           }
 
                           setState(() {

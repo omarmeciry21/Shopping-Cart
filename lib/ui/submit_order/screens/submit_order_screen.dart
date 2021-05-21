@@ -35,7 +35,7 @@ class SubmitOrderScreen extends StatelessWidget {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    OrderSummaryList(cartItems: cartItems),
+                    OrderSummaryList(items: cartItems),
                     SizedBox(
                       height: getAdaptiveHeight(15, context),
                     ),
@@ -67,7 +67,7 @@ class SubmitOrderScreen extends StatelessWidget {
                               'Order Submitted Successfully!',
                               context,
                               duration: Toast.LENGTH_LONG,
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.green.withOpacity(0.75),
                             );
                             Navigator.pop(context);
                             Navigator.pop(context);

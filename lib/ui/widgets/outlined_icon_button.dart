@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 
+// ignore: must_be_immutable
 class OutlinedIconButton extends StatelessWidget {
   OutlinedIconButton({
     Key key,

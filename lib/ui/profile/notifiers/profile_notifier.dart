@@ -18,6 +18,11 @@ class ProfileNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteProfilePhoto() async {
+    await updateImage('');
+    notifyListeners();
+  }
+
   void toggleGender(Gender gender) {
     dataUser.gender = gender;
     notifyListeners();
@@ -43,7 +48,6 @@ class ProfileNotifier extends ChangeNotifier {
         phone: phone == null ? '' : phone,
         gender: gender == null ? '' : gender,
       );
-      FocusManager.instance.primaryFocus.unfocus();
 
       await updateUserData(updatedUser);
       notifyListeners();
@@ -52,14 +56,14 @@ class ProfileNotifier extends ChangeNotifier {
         'Updated Successfully!',
         context,
         duration: Toast.LENGTH_LONG,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green.withOpacity(0.75),
       );
     } catch (e) {
       Toast.show(
         '$e',
         context,
         duration: Toast.LENGTH_LONG,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.red.withOpacity(0.75),
       );
     }
   }

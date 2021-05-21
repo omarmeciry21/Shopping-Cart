@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/data_access/manage_data/orders.dart';
+import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/widgets/drawer_customized_tile.dart';
@@ -75,15 +77,25 @@ class HomePageDrawer extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(context, '/home/profile'),
           ),
           DrawerCustomizedTile(
-            icon: Icons.favorite_rounded,
-            text: 'Favourites',
-            onPressed: () => Navigator.pushNamed(context, '/home/favourites'),
-          ),
+              icon: Icons.favorite_rounded,
+              text: 'Favourites',
+              onPressed: () async {
+                try {
+                  await fetchFavourites();
+                } catch (e) {}
+                Navigator.pushNamed(context, '/home/favourites');
+              }),
           DrawerCustomizedTile(
-            icon: Icons.track_changes_rounded,
-            text: 'Orders',
-            onPressed: () => Navigator.pushNamed(context, '/home/my_orders'),
-          ),
+              icon: Icons.track_changes_rounded,
+              text: 'Orders',
+              onPressed: () async {
+                try {
+                  await fetchOrders();
+                } catch (e) {
+                  print(e);
+                }
+                Navigator.pushNamed(context, '/home/my_orders');
+              }),
           DrawerCustomizedTile(
             icon: Icons.star_rate_rounded,
             text: 'Featured Products',

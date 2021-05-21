@@ -65,19 +65,18 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ),
                   child: BlueButton(
                       text: 'Send',
-                      onPressed: () {
-                        bool messageState = contactUsMessage(
+                      onPressed: () async {
+                        bool messageState = await contactUsMessage(
                           message: _messageController.text,
                         );
                         if (messageState == true) {
                           _messageController.clear();
-                          FocusManager.instance.primaryFocus.unfocus();
                           Navigator.pop(context);
                           Toast.show(
                             'Sent Successfully!',
                             context,
                             duration: Toast.LENGTH_LONG,
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.green.withOpacity(0.75),
                             textColor: Colors.white,
                           );
                         } else {
@@ -86,7 +85,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             'An error occured! Please, try again.',
                             context,
                             duration: Toast.LENGTH_LONG,
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.red.withOpacity(0.75),
                             textColor: Colors.white,
                           );
                         }

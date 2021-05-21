@@ -1,8 +1,17 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/core/models/cart.dart';
+import 'package:my_shop_app/core/models/orders.dart';
 import 'package:my_shop_app/core/models/user.dart';
+import 'package:my_shop_app/data_access/manage_data/cart.dart';
+import 'package:my_shop_app/data_access/manage_data/orders.dart';
 import 'package:my_shop_app/ui/constants.dart';
+import 'package:my_shop_app/ui/no_internet/screens/no_internet_screen.dart';
+import 'package:toast/toast.dart';
+import './products.dart';
 
 Account dataUser = Account(
     name: '',
@@ -27,16 +36,53 @@ Future<bool> createNewUser(Account newUser, BuildContext context) async {
       'gender': newUser.gender == Gender.Male ? 'Male' : 'Female',
       'imageUrl': newUser.imageUrl,
     });
-    dataUser = newUser;
+    await user.user.sendEmailVerification();
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Email Verification'),
+        content: Text(
+            'A verification email has been sent to your account. Please, verify your account and login.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Text('Return to Login Screen'),
+          ),
+        ],
+      ),
+    );
     return true;
   } else
     return false;
 }
 
-Future<bool> signInUser(String email, String password) async {
+Future<bool> signInUser(
+    String email, String password, BuildContext context) async {
   try {
     UserCredential signedUser = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
+    if (!signedUser.user.emailVerified) {
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Email Verification'),
+          content: Text(
+              'Your account hasn\'t been verified yet. Please, check your email.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Dismiss'),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
     if (dataUser != null) {
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
@@ -54,10 +100,17 @@ Future<bool> signInUser(String email, String password) async {
             : Gender.Female,
       );
       return true;
-    } else
+    } else {
+      Toast.show(
+          'Account Not Found! Please, Register a new account first.', context,
+          duration: Toast.LENGTH_LONG,
+          textColor: Colors.white,
+          backgroundColor: Colors.red);
       return false;
+    }
   } catch (e) {
     print(e);
+    return false;
   }
 }
 
@@ -80,25 +133,10 @@ Future<bool> updateUserData(Account updatedUser) async {
       return true;
     } catch (e) {
       print(e);
+      return false;
     }
   } else
     return false;
-}
-
-Future<void> deleteUserImage() async {
-  await FirebaseFirestore.instance
-      .collection('users')
-      .doc('${FirebaseAuth.instance.currentUser.uid}')
-      .set({
-    'name': dataUser.name,
-    'email': dataUser.mail,
-    'password': dataUser.password,
-    'address': dataUser.address,
-    'phone': dataUser.phone,
-    'gender': dataUser.gender == Gender.Male ? 'Male' : 'Female',
-    'imageUrl': '',
-  });
-  dataUser.imageUrl = '';
 }
 
 Future<void> updateImage(String url) async {
@@ -118,6 +156,51 @@ Future<void> updateImage(String url) async {
 }
 
 Future<void> signUserOut() async {
-  await FirebaseAuth.instance.signOut();
+  orders = Orders.clear(
+      userId: FirebaseAuth.instance.currentUser.uid, ordersList: []);
+  cart =
+      Cart.clear(userId: FirebaseAuth.instance.currentUser.uid, cartItems: []);
   dataUser = Account.clear();
+  dataProducts = [];
+  dataProductsFavourites = [];
+  dataProductsFeatured = [];
+
+  favouritesId = [];
+
+  await FirebaseAuth.instance.signOut();
+}
+
+Future<void> sendPasswordResetEmail(String email, BuildContext context) async {
+  await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Password Reset'),
+      content: Text('An email has been sent to reset your password.'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+          child: Text('Dismiss'),
+        ),
+      ],
+    ),
+  );
+}
+
+// ignore: missing_return
+Future<bool> checkInternet(BuildContext context) async {
+  try {
+    final result = await InternetAddress.lookup('www.google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      return true;
+    }
+  } on SocketException catch (_) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => NoInternetScreen()));
+    return false;
+  }
 }

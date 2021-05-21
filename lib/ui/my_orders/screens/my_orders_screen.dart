@@ -11,6 +11,7 @@ class MyOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: ElevatedRoundedIconButton(
           onPressed: () => Navigator.pop(context),
@@ -34,7 +35,7 @@ class MyOrdersScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       vertical: getAdaptiveHeight(10, context)),
                   child: OrderSummaryList(
-                    cartItems: currentOrder.items,
+                    items: currentOrder.items,
                     startingWidgets: Padding(
                       padding: EdgeInsets.only(
                           bottom: getAdaptiveHeight(10, context)),

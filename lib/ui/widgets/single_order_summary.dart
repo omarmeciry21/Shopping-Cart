@@ -6,15 +6,13 @@ import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class OrderSummaryList extends StatelessWidget {
   OrderSummaryList(
-      {Key key,
-      @required this.cartItems,
-      this.startingWidgets,
-      this.endingWidgets})
+      {Key key, @required this.items, this.startingWidgets, this.endingWidgets})
       : super(key: key);
 
-  final List<CartItem> cartItems;
+  final List<CartItem> items;
   Widget startingWidgets, endingWidgets;
 
   @override
@@ -44,7 +42,7 @@ class OrderSummaryList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(
                           getAdaptiveHeight(20, context))),
                   child: Text(
-                    'Total: ${Provider.of<MyCartNotifier>(context).totalPriceOf(cartItems)}',
+                    'Total: ${Provider.of<MyCartNotifier>(context).totalPriceOf(items)}',
                     style: kScreenTitleTextStyle(context).copyWith(
                       fontSize: getAdaptiveHeight(14, context),
                       color: kDarkBlue.withOpacity(0.8),
@@ -60,16 +58,7 @@ class OrderSummaryList extends StatelessWidget {
                 right: getAdaptiveWidth(10, context),
                 top: getAdaptiveHeight(10, context)),
             child: Column(
-              children: cartItems.map((cartItem) {
-                final currentProduct = Provider.of<HomeNotifier>(context)
-                    .getProductWithId(cartItem.productId);
-                return _buildSingleLineOrderItem(
-                    title: currentProduct.title,
-                    price: currentProduct.price,
-                    quantity: cartItem.quantity,
-                    moneySign: currentProduct.moneySymbol,
-                    context: context);
-              }).toList(),
+              children: _buildItemsList(items, context),
             ),
           ),
           endingWidgets == null ? Container() : endingWidgets
@@ -77,6 +66,26 @@ class OrderSummaryList extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> _buildItemsList(List<CartItem> items, BuildContext context) {
+  List<Widget> widgets = [];
+  items.forEach(
+    (cartItem) {
+      final currentProduct = Provider.of<HomeNotifier>(context)
+          .getProductWithId(cartItem.productId);
+      widgets.add(
+        _buildSingleLineOrderItem(
+          title: currentProduct.title,
+          price: currentProduct.price,
+          quantity: cartItem.quantity,
+          moneySign: currentProduct.moneySymbol,
+          context: context,
+        ),
+      );
+    },
+  );
+  return widgets;
 }
 
 Widget _buildSingleLineOrderItem(

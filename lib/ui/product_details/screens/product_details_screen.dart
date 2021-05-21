@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
-import 'package:my_shop_app/ui/home/screens/home_screen.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 
 import 'package:my_shop_app/ui/size_config.dart';
@@ -147,11 +145,10 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    final bool currentState = dataProducts
-                        .where((element) =>
-                            element.productId == widget.product.productId)
-                        .first
-                        .isFavourite;
+                    final bool currentState =
+                        Provider.of<HomeNotifier>(context, listen: false)
+                            .favouritesIdList
+                            .contains(widget.product.productId);
                     if (currentState == true) {
                       showDialog(
                         context: context,
@@ -197,8 +194,9 @@ class _ProductDetailsActionsState extends State<ProductDetailsActions> {
                     ),
                     child: Icon(
                       Icons.favorite_rounded,
-                      color: Provider.of<HomeNotifier>(context, listen: false)
-                              .isFavourite(widget.product.productId)
+                      color: Provider.of<HomeNotifier>(context)
+                              .favouritesIdList
+                              .contains(widget.product.productId)
                           ? kDarkBlue
                           : Colors.black45,
                     ),

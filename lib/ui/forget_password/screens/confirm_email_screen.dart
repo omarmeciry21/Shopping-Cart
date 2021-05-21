@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
+import 'package:my_shop_app/ui/forget_password/notifiers/confirm_email_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/orange_button.dart';
+import 'package:provider/provider.dart';
 
 class ConfirmEmailScreen extends StatefulWidget {
   @override
@@ -9,6 +12,8 @@ class ConfirmEmailScreen extends StatefulWidget {
 }
 
 class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
+  final _emailController = TextEditingController();
+  final _confirmEmailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +36,7 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                 horizontal: getAdaptiveWidth(10.0, context),
               ),
               child: TextField(
+                controller: _emailController,
                 decoration: kTextFieldDecoration.copyWith(
                   labelText: 'Email',
                   hintText: 'Enter your email.',
@@ -45,10 +51,16 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
                 horizontal: getAdaptiveWidth(10.0, context),
               ),
               child: TextField(
+                controller: _confirmEmailController,
                 decoration: kTextFieldDecoration.copyWith(
-                  labelText: 'Confirm email',
-                  hintText: 'Confirm your email.',
-                ),
+                    labelText: 'Confirm email',
+                    hintText: 'Confirm your email.',
+                    errorText: Provider.of<ConfirmEmailNotifier>(context)
+                        .confirmError),
+                onChanged: (value) {
+                  Provider.of<ConfirmEmailNotifier>(context, listen: false)
+                      .onConfirmChanged(value, _emailController.text);
+                },
               ),
             ),
             SizedBox(
@@ -57,7 +69,11 @@ class _ConfirmEmailScreenState extends State<ConfirmEmailScreen> {
             OrangeButton(
               label: 'Next',
               onPressed: () {
-                Navigator.pushNamed(context, '/login/forget/code');
+                if (Provider.of<ConfirmEmailNotifier>(context, listen: false)
+                            .confirmError ==
+                        null &&
+                    _confirmEmailController.text.isNotEmpty)
+                  sendPasswordResetEmail(_confirmEmailController.text, context);
               },
             )
           ],

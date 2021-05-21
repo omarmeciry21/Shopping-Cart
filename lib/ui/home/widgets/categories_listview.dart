@@ -58,9 +58,14 @@ class CategoryListItem extends StatelessWidget {
           ),
           child: Opacity(
             opacity: 0.25,
-            child: Image.network(
-              category.imageUrl,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                getAdaptiveHeight(15, context),
+              ),
+              child: Image.network(
+                category.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -80,13 +85,25 @@ class CategoryListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: getAdaptiveWidth(20, context)),
-                child: Text(
-                  '${category.title}',
-                  style: kTitleTextStyle(context).copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: getAdaptiveHeight(30, context)),
+                padding: EdgeInsets.only(
+                    left: getAdaptiveWidth(20, context),
+                    right: getAdaptiveWidth(10, context)),
+                child: Row(
+                  children: [
+                    Text(
+                      '${category.title}',
+                      style: kTitleTextStyle(context).copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: getAdaptiveHeight(30, context)),
+                    ),
+                    Expanded(child: Container()),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: getAdaptiveHeight(30, context),
+                      color: Colors.white70,
+                    )
+                  ],
                 ),
               ),
             ],

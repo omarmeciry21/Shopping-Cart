@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/product_details/screens/product_details_screen.dart';
 import 'package:my_shop_app/ui/size_config.dart';
@@ -74,11 +73,10 @@ class ProductPreviewCard extends StatelessWidget {
             ),
             ElevatedRoundedIconButton(
               onPressed: () {
-                final bool currentState = dataProducts
-                    .where((element) =>
-                        element.productId == currentProduct.productId)
-                    .first
-                    .isFavourite;
+                final bool currentState =
+                    Provider.of<HomeNotifier>(context, listen: false)
+                        .favouritesIdList
+                        .contains(currentProduct.productId);
                 if (currentState == true) {
                   showDialog(
                     context: context,
@@ -110,7 +108,8 @@ class ProductPreviewCard extends StatelessWidget {
                       .toggleFavouriteButton(currentProduct.productId);
               },
               icon: Provider.of<HomeNotifier>(context)
-                      .isFavourite(currentProduct.productId)
+                      .favouritesIdList
+                      .contains(currentProduct.productId)
                   ? Icons.favorite_rounded
                   : Icons.favorite_border_rounded,
             ),

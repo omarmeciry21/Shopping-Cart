@@ -8,9 +8,11 @@ class Order {
   String feedBack;
   final DateTime orderDate;
   OrderState state;
+  final userId;
 
   Order({
     @required this.orderId,
+    @required this.userId,
     @required this.items,
     @required this.orderDate,
     @required this.state,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_shop_app/core/models/user.dart';
-import 'package:toast/toast.dart';
 
 abstract class StringValidator {
   bool isValid(String value);

@@ -14,6 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+String _imageUrl;
+
+// ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -21,7 +24,6 @@ class ProfileScreen extends StatelessWidget {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
-  String _imageUrl;
   Gender _gender;
   void fetchAccountData() {
     _nameController.text = dataUser.name;
@@ -298,11 +300,12 @@ class _ImageSectionState extends State<ImageSection> {
       await ref.putFile(_image);
       String url = await ref.getDownloadURL();
       Provider.of<ProfileNotifier>(context, listen: false).uploadImage(url);
+      _imageUrl = url;
       setState(() {});
       Toast.show(
         'Image Uploaded Successfully!',
         context,
-        textColor: Colors.white.withOpacity(0.75),
+        textColor: Colors.white,
         backgroundColor: Colors.green.withOpacity(0.75),
       );
     } else {
@@ -369,12 +372,15 @@ class _ImageSectionState extends State<ImageSection> {
                                 onPressed: () async {
                                   try {
                                     Navigator.pop(context);
-                                    await deleteUserImage();
+                                    _imageUrl = '';
+                                    Provider.of<ProfileNotifier>(context,
+                                            listen: false)
+                                        .deleteProfilePhoto();
                                     setState(() {});
                                     Toast.show(
                                       'Image Deleted Successfully!',
                                       context,
-                                      textColor: Colors.white.withOpacity(0.75),
+                                      textColor: Colors.white,
                                       backgroundColor:
                                           Colors.green.withOpacity(0.75),
                                     );

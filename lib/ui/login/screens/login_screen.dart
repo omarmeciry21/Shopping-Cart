@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:my_shop_app/data_access/manage_data/cart.dart';
+import 'package:my_shop_app/data_access/manage_data/categories.dart';
 import 'package:my_shop_app/data_access/manage_data/products.dart';
 import 'package:my_shop_app/data_access/manage_data/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
+import 'package:my_shop_app/ui/home/screens/home_screen.dart';
 import 'package:my_shop_app/ui/login/notifiers/password_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/orange_button.dart';
@@ -20,15 +23,20 @@ class _LoginScreenState extends State<LoginScreen> {
   bool progressShown = false;
 
   @override
-  void dispose() {
-    super.dispose();
-    Provider.of<LoginNotifier>(context, listen: false).resetErrors();
+  void initState() {
+    super.initState();
+    checkInternet(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        setState(() {
+          progressShown = false;
+        });
+        return false;
+      },
       child: ModalProgressHUD(
         inAsyncCall: progressShown,
         child: Scaffold(
@@ -107,39 +115,61 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         if ((loginNotifier.passwordError != null ||
                             loginNotifier.emailError != null)) {
+                        } else if (_emailController.text.isEmpty ||
+                            _passwordController.text.isEmpty) {
+                          Toast.show(
+                              'Please, fill up the empty fields.', context,
+                              duration: Toast.LENGTH_LONG,
+                              textColor: Colors.white,
+                              backgroundColor: Colors.red.withOpacity(0.75));
                         } else {
-                          setState(() {
-                            loginNotifier.resetErrors();
-                            progressShown = true;
-                          });
+                          if ((await checkInternet(context)) == true) {
+                            setState(() {
+                              loginNotifier.resetErrors();
+                              progressShown = true;
+                            });
 
-                          try {
-                            bool isSigned = await signInUser(
-                                _emailController.text,
-                                _passwordController.text);
-                            if (isSigned) {
-                              await fetchProducts();
-                              await fetchFavourites();
-                              await fetchFeatured();
+                            try {
+                              bool isSigned = await signInUser(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  context);
+                              if (isSigned) {
+                                await fetchProducts();
+                                await fetchFavourites();
+                                await fetchFeatured();
+                                await fetchCategories();
+                                try {
+                                  await fetchCartItems();
+                                } catch (e) {}
 
-                              Toast.show('Signed in Successfully!', context,
+                                Provider.of<LoginNotifier>(context,
+                                        listen: false)
+                                    .resetErrors();
+
+                                Toast.show('Signed in Successfully!', context,
+                                    duration: Toast.LENGTH_LONG,
+                                    textColor: Colors.white,
+                                    backgroundColor:
+                                        Colors.green.withOpacity(0.75));
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeScreen()));
+                              }
+                            } catch (e) {
+                              Toast.show(
+                                  'Incorrect email or password! Please, try again.',
+                                  context,
                                   duration: Toast.LENGTH_LONG,
                                   textColor: Colors.white,
-                                  backgroundColor: Colors.green);
-                              Navigator.pushReplacementNamed(context, '/home');
+                                  backgroundColor:
+                                      Colors.grey.withOpacity(0.75));
                             }
-                          } catch (e) {
-                            Toast.show(
-                                'Account Not Found! Please, Register a new account first.',
-                                context,
-                                duration: Toast.LENGTH_LONG,
-                                textColor: Colors.white,
-                                backgroundColor: Colors.red);
-                          }
 
-                          setState(() {
-                            progressShown = false;
-                          });
+                            setState(() {
+                              progressShown = false;
+                            });
+                          }
                         }
                       },
                     ),
@@ -154,8 +184,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(color: Colors.black87),
                         ),
                         GestureDetector(
-                          onTap: () =>
-                              Navigator.pushNamed(context, '/login/register'),
+                          onTap: () async {
+                            if ((await checkInternet(context)) == true)
+                              Navigator.pushNamed(context, '/login/register');
+                          },
                           child: Text(
                             'Register Now',
                             style: TextStyle(
@@ -174,8 +206,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         horizontal: getAdaptiveWidth(10.0, context),
                       ),
                       child: GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/login/forget'),
+                        onTap: () async {
+                          if ((await checkInternet(context)) == true)
+                            Navigator.pushNamed(context, '/login/forget');
+                        },
                         child: Text(
                           'Forgot your password? ',
                           style: TextStyle(color: kDarkBlue),
