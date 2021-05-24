@@ -7,7 +7,7 @@ Hey everyone! This is my latest project accomplished by Flutter as the front-end
  - Core
 
 # UI Layer
-The first layer of the project was the user interface of the applications. It includes all the screens and the widgets used in the app. It also contains any needed structures for managing the UI such as change notifiers.
+The first layer of the project is the user interface of the applications. It includes all the screens and the widgets used in the app. It also contains any needed structures for managing the UI such as change notifiers.
 
 The screens contained in the app are:
 - Home
@@ -26,3 +26,24 @@ The screens contained in the app are:
 - Contact Us
 
 # Data Access Layer
+The second layer is the data access layer. Data Access Layer defines the functions for dealing with the data stored in data base. It provides a smooth way of getting and pushing data in the UI layer.
+
+The Data Access Layer includes file for managing each collection of data stored in Firebase Firestore. These collections are:
+- Users
+- Cart Items
+- Categories
+- Orders
+- Products
+- Contact Us Messages
+
+# Core Layer
+The very last layer is the Core Layer. The models, classes, for objects used to facilitate data management inside and between the other two layers are stored in this layer. 
+
+The classes included are:
+- Product
+- Category
+- Order
+- Orders
+- Cart Item
+- Cart
+- User
