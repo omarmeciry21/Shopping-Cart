@@ -89,15 +89,26 @@ class ProfileScreen extends StatelessWidget {
               .copyWith(left: getAdaptiveWidth(30, context)),
           child: ListView(
             children: [
-              ProfileSingleItemRow(
-                firstChild: Text(
-                  'Profile',
-                  style: kTitleTextStyle(context).copyWith(
-                    fontSize: getAdaptiveHeight(34, context),
-                    fontWeight: FontWeight.bold,
+              Container(
+                height: getAppHegiht(context) / 7,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: getAdaptiveHeight(10, context)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Profile',
+                          style: kTitleTextStyle(context).copyWith(
+                            fontSize: getAdaptiveHeight(34, context),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                secondChild: Container(),
               ),
               ImageSection(),
               Consumer<ProfileNotifier>(
@@ -112,9 +123,6 @@ class ProfileScreen extends StatelessWidget {
               EmailSection(
                 emailController: _emailController,
               ),
-              PasswordSection(
-                passController: _passController,
-              ),
               AddressSection(
                 addressController: _addressController,
               ),
@@ -128,51 +136,35 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               Consumer<ProfileNotifier>(
-                builder: (_, profileNotifier, __) => TextFieldProfileItem(
-                  controller: _phoneController,
-                  hint: 'Phone number',
-                  label: 'Phone',
-                  maxLength: 13,
-                  errorText: profileNotifier.phoneError,
-                  onChanged: (value) {
-                    profileNotifier.onPhoneChanged(value);
-                  },
+                builder: (_, profileNotifier, __) => ProfileSingleItemRow(
+                  firstChild: Text(
+                    'Phone',
+                    style: kQuantityTextStyle(context).copyWith(
+                      fontSize: getAdaptiveHeight(18, context),
+                      color: Colors.black38,
+                    ),
+                  ),
+                  secondChild: TextField(
+                    controller: _phoneController,
+                    style: TextStyle(
+                      color: kDarkBlue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: getAdaptiveHeight(14, context),
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'Phone number',
+                      contentPadding: EdgeInsets.zero,
+                      errorText: profileNotifier.phoneError,
+                    ),
+                    maxLength: 13,
+                    onChanged: (value) {
+                      profileNotifier.onPhoneChanged(value);
+                    },
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class PasswordSection extends StatelessWidget {
-  final TextEditingController passController;
-
-  const PasswordSection({Key key, @required this.passController})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ProfileNotifier>(
-      builder: (_, profileNotifier, __) => TextFieldProfileItem(
-        controller: passController,
-        hint: 'Enter your password',
-        label: 'Password',
-        fontSize: 14,
-        isDisabled: true,
-        obscureText: !profileNotifier.isPasswordVisible,
-        trailingIcon: IconButton(
-          icon: Icon(
-            profileNotifier.isPasswordVisible
-                ? Icons.visibility
-                : Icons.visibility_off,
-            color: kDarkBlue.withOpacity(0.75),
-          ),
-          onPressed: () {
-            profileNotifier.togglePasswordVisibility();
-          },
         ),
       ),
     );
@@ -249,8 +241,7 @@ class NameSection extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           errorText: errorText,
         ),
-        maxLength: 150,
-        maxLines: 5,
+        maxLength: 75,
         onChanged: onChanged,
       ),
     );

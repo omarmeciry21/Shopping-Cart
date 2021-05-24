@@ -3,7 +3,7 @@ import 'package:my_shop_app/ui/size_config.dart';
 
 class ExploreProductCard extends StatelessWidget {
   final Color color;
-  final String image, price, title, priceSymbole;
+  String image, price, title, priceSymbole;
   ExploreProductCard({
     Key key,
     @required this.color,
@@ -19,7 +19,8 @@ class ExploreProductCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(
           horizontal: getAdaptiveWidth(8, context),
           vertical: getAdaptiveHeight(4, context)),
-      width: getAdaptiveWidth(100, context),
+      width: getAdaptiveWidth(130, context),
+      height: getAdaptiveWidth(130, context),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: color,
@@ -27,25 +28,27 @@ class ExploreProductCard extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 image,
                 height: getAdaptiveHeight(70, context),
-                width: getAdaptiveWidth(70, context),
                 fit: BoxFit.contain,
               ),
             ),
             SizedBox(
               height: getAdaptiveHeight(5, context),
             ),
-            Text(
-              '$title\n$priceSymbole$price',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Flexible(
+              child: Text(
+                '${title.length > 12 ? title.substring(0, 12) + '...' : title}\n$priceSymbole$price',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
             )
           ],

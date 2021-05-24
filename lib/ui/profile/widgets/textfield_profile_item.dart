@@ -36,30 +36,23 @@ class TextFieldProfileItem extends StatelessWidget {
           style: kSecondaryTextStyle(context),
         ),
       ),
-      secondChild: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              enabled: !isDisabled,
-              controller: controller,
-              obscureText: obscureText,
-              maxLength: maxLength,
-              onChanged: onChanged,
-              style: TextStyle(
-                color: kDarkBlue,
-                fontWeight: FontWeight.bold,
-                fontSize: getAdaptiveHeight(fontSize, context),
-              ),
-              decoration: InputDecoration(
-                hintText: '$hint',
-                contentPadding: EdgeInsets.zero,
-                errorText: errorText,
-              ),
-            ),
-          ),
-          trailingIcon == null ? Container() : trailingIcon
-        ],
+      secondChild: TextField(
+        enabled: !isDisabled,
+        controller: controller,
+        obscureText: obscureText,
+        maxLength: maxLength,
+        onChanged: onChanged,
+        style: TextStyle(
+          color: kDarkBlue,
+          fontWeight: FontWeight.bold,
+          fontSize: getAdaptiveHeight(fontSize, context),
+        ),
+        decoration: InputDecoration(
+            hintText: '$hint',
+            contentPadding: EdgeInsets.zero,
+            errorText: errorText, ),
       ),
+      trailingIcon: trailingIcon == null ? Container() : trailingIcon,
     );
   }
 }

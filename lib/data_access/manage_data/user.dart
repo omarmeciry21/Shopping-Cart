@@ -61,7 +61,7 @@ Future<bool> createNewUser(Account newUser, BuildContext context) async {
 
 Future<bool> signInUser(
     String email, String password, BuildContext context) async {
-  try {
+  
     UserCredential signedUser = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     if (!signedUser.user.emailVerified) {
@@ -108,10 +108,7 @@ Future<bool> signInUser(
           backgroundColor: Colors.red);
       return false;
     }
-  } catch (e) {
-    print(e);
-    return false;
-  }
+  
 }
 
 Future<bool> updateUserData(Account updatedUser) async {

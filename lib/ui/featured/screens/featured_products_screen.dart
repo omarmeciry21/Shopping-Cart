@@ -22,10 +22,13 @@ class FeaturedProductsScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Consumer<HomeNotifier>(
-          builder: (_, homeNotifier, __) => ProductsGridView(
-            listLength: homeNotifier.featuredProducts.length,
-            productList: homeNotifier.featuredProducts,
+        child: Padding(
+          padding: kScreenPadding(context),
+          child: Consumer<HomeNotifier>(
+            builder: (_, homeNotifier, __) => ProductsGridView(
+              listLength: homeNotifier.featuredProducts.length,
+              productList: homeNotifier.featuredProducts,
+            ),
           ),
         ),
       ),

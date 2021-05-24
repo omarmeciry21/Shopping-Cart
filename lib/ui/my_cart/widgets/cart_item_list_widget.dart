@@ -62,7 +62,7 @@ class CartItemListWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${currentProduct.title}',
+                    '${currentProduct.title.length > 15 ? currentProduct.title.substring(0, 15) + '...' : currentProduct.title}',
                     style: kTitleTextStyle(context).copyWith(fontSize: 18),
                   ),
                   SizedBox(
@@ -70,7 +70,7 @@ class CartItemListWidget extends StatelessWidget {
                   ),
                   Text(
                     '${currentProduct.moneySymbol}${currentProduct.price} x ${cartNotifier.items[index].quantity}',
-                    style: kTitleTextStyle(context).copyWith(fontSize: 18),
+                    style: kTitleTextStyle(context).copyWith(fontSize: 14),
                   ),
                 ],
               ),

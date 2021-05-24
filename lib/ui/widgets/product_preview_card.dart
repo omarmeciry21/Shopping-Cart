@@ -60,7 +60,7 @@ class ProductPreviewCard extends StatelessWidget {
                       height: getAdaptiveHeight(5, context),
                     ),
                     Text(
-                      '${currentProduct.title}\n${currentProduct.moneySymbol}${currentProduct.price}',
+                      '${currentProduct.title.length > 15 ? currentProduct.title.substring(0, 15) + '...' : currentProduct.title}\n${currentProduct.moneySymbol}${currentProduct.price}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,

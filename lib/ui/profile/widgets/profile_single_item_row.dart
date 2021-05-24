@@ -6,9 +6,11 @@ class ProfileSingleItemRow extends StatelessWidget {
     Key key,
     @required this.firstChild,
     @required this.secondChild,
+    this.trailingIcon,
     this.height,
   }) : super(key: key);
   final firstChild, secondChild, height;
+  Widget trailingIcon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +27,8 @@ class ProfileSingleItemRow extends StatelessWidget {
             Expanded(
               flex: 4,
               child: secondChild,
-            )
+            ),
+            trailingIcon == null ? Container() : trailingIcon,
           ],
         ),
       ),

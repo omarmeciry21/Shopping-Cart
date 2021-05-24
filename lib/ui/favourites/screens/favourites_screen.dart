@@ -22,10 +22,13 @@ class FavouritesScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Consumer<HomeNotifier>(
-          builder: (_, homeNotifier, __) => ProductsGridView(
-            listLength: homeNotifier.favourites.length,
-            productList: homeNotifier.favourites,
+        child: Padding(
+          padding: kScreenPadding(context),
+          child: Consumer<HomeNotifier>(
+            builder: (_, homeNotifier, __) => ProductsGridView(
+              listLength: homeNotifier.favourites.length,
+              productList: homeNotifier.favourites,
+            ),
           ),
         ),
       ),

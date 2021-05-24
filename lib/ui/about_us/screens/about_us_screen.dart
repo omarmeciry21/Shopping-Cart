@@ -116,7 +116,8 @@ class AboutUsScreen extends StatelessWidget {
                   ),
                   title: Text(
                     'omarmeciry21@gmail.com',
-                    style: kScreenTitleTextStyle(context),
+                    style:
+                        kScreenTitleTextStyle(context).copyWith(fontSize: 16),
                   ),
                 ),
               ),

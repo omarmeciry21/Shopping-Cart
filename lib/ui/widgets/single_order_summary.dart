@@ -101,7 +101,7 @@ Widget _buildSingleLineOrderItem(
       children: [
         Flexible(
           child: Text(
-            '$title',
+            '${title.length > 20 ? title.substring(0, 20) + '...' : title}',
             style: kSingleLineTextStyle(context),
           ),
         ),
