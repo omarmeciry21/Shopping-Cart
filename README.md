@@ -11,6 +11,11 @@ It is accomplished by Flutter as the front-end of the app and Google Firebase as
  The design of the app is inspired from:
  https://www.behance.net/gallery/103614487/iOS-furniture-e-commerce-app-store
 
+ I would be grateful for any Flutter developer opporunities. My contacts:
+ - Email: omarmeciry21@gmail.com
+ - WhatsApp: +201220445875
+ - Linkedin: https://www.linkedin.com/in/omar-nabil-elmesiry-514416176/
+
 # UI Layer
 The first layer of the project is the user interface of the applications. It includes all the screens and the widgets used in the app. It also contains any needed structures for managing the UI such as change notifiers.
 
