@@ -1,10 +1,15 @@
 ## Shopping Cart App
 
-Hey everyone! This is my latest project accomplished by Flutter as the front-end of the app and Google Firebase as the back-end. In this app, I managed to implement clean architecture through three separated layers:
+Hey everyone! This is my latest project. The app is an E-commerce app. You can preview products divided into several categories, favourite products to save them for later actions, searchg through app's products, preview featured products, and submit and track orders.
+
+It is accomplished by Flutter as the front-end of the app and Google Firebase as the back-end. In this app, I managed to implement clean architecture through three separated layers:
  
  - UI
  - Data Access
  - Core
+
+ The design of the app is inspired from:
+ https://www.behance.net/gallery/103614487/iOS-furniture-e-commerce-app-store
 
 # UI Layer
 The first layer of the project is the user interface of the applications. It includes all the screens and the widgets used in the app. It also contains any needed structures for managing the UI such as change notifiers.
