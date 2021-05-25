@@ -1,6 +1,6 @@
 ## Shopping Cart App
 
-Hey everyone! This is my latest project. The app is an E-commerce app. You can preview products divided into several categories, favourite products to save them for later actions, searchg through app's products, preview featured products, and submit and track orders.
+Hey everyone! This is my latest project. The app is an E-commerce app. You can preview products divided into several categories, favourite products to save them for later actions, searchg through app's products, preview featured products, and submit and track orders. The app is ready for market usages with a different database to suit clients' offered products.
 
 It is accomplished by Flutter as the front-end of the app and Google Firebase as the back-end. In this app, I managed to implement clean architecture through three separated layers:
  
