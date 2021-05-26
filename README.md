@@ -57,3 +57,5 @@ The classes included are:
 - Cart Item
 - Cart
 - User
+
+I hope that you liked the application and its architecture and please feel free to contact me for any queries, suggestions, or opportunities.
