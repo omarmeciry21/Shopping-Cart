@@ -58,4 +58,4 @@ The classes included are:
 - Cart
 - User
 
-I hope that you liked the application and its architecture and please feel free to contact me for any queries, suggestions, or opportunities.
+I hope that you liked the application and its architecture. Please feel free to contact me for any queries, suggestions, or opportunities.
