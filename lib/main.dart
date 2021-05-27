@@ -7,7 +7,7 @@ import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';
 import 'package:my_shop_app/ui/register/notifiers/register_notifier.dart';
-import 'package:my_shop_app/ui/login/notifiers/password_notifier.dart';
+import 'package:my_shop_app/ui/login/notifiers/login_notifier.dart';
 
 void main() {
   runApp(MyApp());

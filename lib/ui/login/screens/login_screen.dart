@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:my_shop_app/core/models/user.dart';
 import 'package:my_shop_app/data_access/cart.dart';
 import 'package:my_shop_app/data_access/categories.dart';
 import 'package:my_shop_app/data_access/products.dart';
 import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/screens/home_screen.dart';
-import 'package:my_shop_app/ui/login/notifiers/password_notifier.dart';
+import 'package:my_shop_app/ui/login/notifiers/login_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/orange_button.dart';
 import 'package:provider/provider.dart';
@@ -126,43 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               loginNotifier.resetErrors();
                               progressShown = true;
                             });
-
-                            try {
-                              bool isSigned = await signInUser(
-                                  _emailController.text,
-                                  _passwordController.text,
-                                  context);
-                              if (isSigned) {
-                                await fetchProducts();
-                                await fetchFavourites();
-                                await fetchFeatured();
-                                await fetchCategories();
-                                try {
-                                  await fetchCartItems();
-                                } catch (e) {}
-
-                                Provider.of<LoginNotifier>(context,
-                                        listen: false)
-                                    .resetErrors();
-
-                                Toast.show('Signed in Successfully!', context,
-                                    duration: Toast.LENGTH_LONG,
-                                    textColor: Colors.white,
-                                    backgroundColor:
-                                        Colors.green.withOpacity(0.75));
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeScreen()));
-                              }
-                            } catch (e) {
-                              Toast.show(
-                                  'Incorrect email or password! Please, try again.',
-                                  context,
-                                  duration: Toast.LENGTH_LONG,
-                                  textColor: Colors.white,
-                                  backgroundColor:
-                                      Colors.red.withOpacity(0.75));
-                            }
+                            Provider.of<LoginNotifier>(context)
+                                .signInWithEmailAndPassword(
+                                    _emailController.text,
+                                    _passwordController.text,
+                                    context);
 
                             setState(() {
                               progressShown = false;

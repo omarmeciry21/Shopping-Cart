@@ -10,6 +10,7 @@ import 'package:my_shop_app/data_access/cart.dart';
 import 'package:my_shop_app/data_access/orders.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/no_internet/screens/no_internet_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import './products.dart';
 
@@ -87,7 +88,7 @@ Future<bool> signInUser(
         .collection('users')
         .doc('${signedUser.user.uid}')
         .get();
-    dataUser = Account(
+    Account userAccount = Account(
       name: userData.get('name').toString(),
       mail: userData.get('email').toString(),
       password: userData.get('password').toString(),
@@ -98,6 +99,8 @@ Future<bool> signInUser(
           ? Gender.Male
           : Gender.Female,
     );
+    dataUser = userAccount;
+    saveUserDataToSharedPrefs(userAccount);
     return true;
   } else {
     Toast.show(
@@ -107,6 +110,39 @@ Future<bool> signInUser(
         backgroundColor: Colors.red);
     return false;
   }
+}
+
+/*
+String name, mail, imageUrl, address, phone, password;
+  Gender gender;
+   */
+Future<void> saveUserDataToSharedPrefs(Account accountData) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('name', accountData.name);
+  prefs.setString('mail', accountData.name);
+  prefs.setString('imageUrl', accountData.name);
+  prefs.setString('address', accountData.name);
+  prefs.setString('phone', accountData.name);
+  prefs.setString('password', accountData.name);
+  prefs.setString(
+      'gender', accountData.gender == Gender.Male ? 'Male' : 'Female');
+}
+
+Future<Account> getUserDataFromSharedPrefs() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('name')) {
+    Account accountData = Account(
+      name: prefs.getString('name'),
+      mail: prefs.getString('mail'),
+      password: prefs.getString('password'),
+      imageUrl: prefs.getString('imageUrl'),
+      address: prefs.getString('address'),
+      phone: prefs.getString('phone'),
+      gender: prefs.getString('gender') == 'Male' ? Gender.Male : Gender.Female,
+    );
+    return accountData;
+  } else
+    return Account.clear();
 }
 
 Future<bool> updateUserData(Account updatedUser) async {
@@ -125,6 +161,7 @@ Future<bool> updateUserData(Account updatedUser) async {
         'imageUrl': updatedUser.imageUrl,
       });
       dataUser = updatedUser;
+      saveUserDataToSharedPrefs(updatedUser);
       return true;
     } catch (e) {
       print(e);
@@ -148,6 +185,7 @@ Future<void> updateImage(String url) async {
     'imageUrl': url,
   });
   dataUser.imageUrl = url;
+  saveUserDataToSharedPrefs(dataUser);
 }
 
 Future<void> signUserOut() async {
@@ -156,6 +194,8 @@ Future<void> signUserOut() async {
   cart =
       Cart.clear(userId: FirebaseAuth.instance.currentUser.uid, cartItems: []);
   dataUser = Account.clear();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.clear();
   dataProducts = [];
   dataProductsFavourites = [];
   dataProductsFeatured = [];
