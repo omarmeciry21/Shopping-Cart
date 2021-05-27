@@ -33,7 +33,8 @@ class LoginNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  signInWithEmailAndPassword(String email, String password, context) async {
+  signInWithEmailAndPassword(
+      String email, String password, bool showToast, context) async {
     try {
       bool isSigned = await signInUser(email, password, context);
       if (isSigned) {
@@ -45,29 +46,25 @@ class LoginNotifier extends ChangeNotifier {
           await fetchCartItems();
         } catch (e) {
           print(e);
-          Toast.show(
-            'An error ocurred while fetching data! Please, try again.',
-            context,
-            duration: Toast.LENGTH_LONG,
-            textColor: Colors.white,
-            backgroundColor: Colors.red.withOpacity(0.75),
-          );
         }
 
         resetErrors();
 
-        Toast.show('Signed in Successfully!', context,
-            duration: Toast.LENGTH_LONG,
-            textColor: Colors.white,
-            backgroundColor: Colors.green.withOpacity(0.75));
+        if (showToast)
+          Toast.show('Signed in Successfully!', context,
+              duration: Toast.LENGTH_LONG,
+              textColor: Colors.white,
+              backgroundColor: Colors.green.withOpacity(0.75));
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => HomeScreen()));
       }
     } catch (e) {
-      Toast.show('Incorrect email or password! Please, try again.', context,
-          duration: Toast.LENGTH_LONG,
-          textColor: Colors.white,
-          backgroundColor: Colors.red.withOpacity(0.75));
+      print(e);
+      if (showToast) if (showToast)
+        Toast.show('Incorrect email or password! Please, try again.', context,
+            duration: Toast.LENGTH_LONG,
+            textColor: Colors.white,
+            backgroundColor: Colors.red.withOpacity(0.75));
     }
   }
 }

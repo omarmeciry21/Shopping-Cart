@@ -10,25 +10,29 @@ class CheckSharedPrefsScreen extends StatefulWidget {
 }
 
 class _CheckSharedPrefsScreenState extends State<CheckSharedPrefsScreen> {
-  Account account;
-  Future<void> checkSharedPrefs() async {
-    account = await getUserDataFromSharedPrefs();
-  }
-
   @override
   initState() {
     super.initState();
     checkSharedPrefs();
+  }
+
+  Future<void> checkSharedPrefs() async {
+    Account account = await getUserDataFromSharedPrefs();
     if (account == Account.clear())
       Navigator.pushReplacementNamed(context, '/login');
     else {
-      Provider.of<LoginNotifier>(context)
-          .signInWithEmailAndPassword(account.mail, account.password, context);
+      Provider.of<LoginNotifier>(context, listen: false)
+          .signInWithEmailAndPassword(
+              account.mail, account.password, false, context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator();
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+    );
   }
 }

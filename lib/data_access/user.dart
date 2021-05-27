@@ -91,7 +91,7 @@ Future<bool> signInUser(
     Account userAccount = Account(
       name: userData.get('name').toString(),
       mail: userData.get('email').toString(),
-      password: userData.get('password').toString(),
+      password: password,
       imageUrl: userData.get('imageUrl').toString(),
       address: userData.get('address').toString(),
       phone: userData.get('phone').toString(),
@@ -119,11 +119,11 @@ String name, mail, imageUrl, address, phone, password;
 Future<void> saveUserDataToSharedPrefs(Account accountData) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('name', accountData.name);
-  prefs.setString('mail', accountData.name);
-  prefs.setString('imageUrl', accountData.name);
-  prefs.setString('address', accountData.name);
-  prefs.setString('phone', accountData.name);
-  prefs.setString('password', accountData.name);
+  prefs.setString('mail', accountData.mail);
+  prefs.setString('imageUrl', accountData.imageUrl);
+  prefs.setString('address', accountData.address);
+  prefs.setString('phone', accountData.phone);
+  prefs.setString('password', accountData.password);
   prefs.setString(
       'gender', accountData.gender == Gender.Male ? 'Male' : 'Female');
 }
@@ -154,7 +154,7 @@ Future<bool> updateUserData(Account updatedUser) async {
           .set({
         'name': updatedUser.name,
         'email': updatedUser.mail,
-        'password': updatedUser.password,
+        'password': dataUser.password,
         'address': updatedUser.address,
         'phone': updatedUser.phone,
         'gender': updatedUser.gender == Gender.Male ? 'Male' : 'Female',
@@ -195,7 +195,7 @@ Future<void> signUserOut() async {
       Cart.clear(userId: FirebaseAuth.instance.currentUser.uid, cartItems: []);
   dataUser = Account.clear();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.clear();
+  await prefs.clear();
   dataProducts = [];
   dataProductsFavourites = [];
   dataProductsFeatured = [];

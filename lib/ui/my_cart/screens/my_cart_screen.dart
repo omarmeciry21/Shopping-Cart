@@ -29,17 +29,24 @@ class MyCartScreen extends StatelessWidget {
           child: Consumer<MyCartNotifier>(
             builder: (_, cartNotifier, __) => Column(
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: cartNotifier.cartLength,
-                    itemBuilder: (context, index) {
-                      return CartItemListWidget(
-                        cartNotifier: cartNotifier,
-                        index: index,
-                      );
-                    },
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cartNotifier.cartLength,
+                  itemBuilder: (context, index) {
+                    return CartItemListWidget(
+                      cartNotifier: cartNotifier,
+                      index: index,
+                    );
+                  },
                 ),
+                cartNotifier.cartLength == 0
+                    ? Container()
+                    : Text(
+                        'Slide left to delete item.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black38),
+                      ),
+                Expanded(child: Container()),
                 Row(
                   children: [
                     Text(

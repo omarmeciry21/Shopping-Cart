@@ -127,10 +127,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               loginNotifier.resetErrors();
                               progressShown = true;
                             });
-                            Provider.of<LoginNotifier>(context)
+                            await Provider.of<LoginNotifier>(context,
+                                    listen: false)
                                 .signInWithEmailAndPassword(
                                     _emailController.text,
                                     _passwordController.text,
+                                    true,
                                     context);
 
                             setState(() {
