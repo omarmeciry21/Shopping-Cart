@@ -130,7 +130,7 @@ Future<void> saveUserDataToSharedPrefs(Account accountData) async {
 
 Future<Account> getUserDataFromSharedPrefs() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('name')) {
+  if (prefs.containsKey('name') && prefs.getString('name') != '') {
     Account accountData = Account(
       name: prefs.getString('name'),
       mail: prefs.getString('mail'),
@@ -142,7 +142,7 @@ Future<Account> getUserDataFromSharedPrefs() async {
     );
     return accountData;
   } else
-    return Account.clear();
+    return null;
 }
 
 Future<bool> updateUserData(Account updatedUser) async {
@@ -195,7 +195,8 @@ Future<void> signUserOut() async {
       Cart.clear(userId: FirebaseAuth.instance.currentUser.uid, cartItems: []);
   dataUser = Account.clear();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
+  prefs.clear();
+  prefs.setString('name', '');
   dataProducts = [];
   dataProductsFavourites = [];
   dataProductsFeatured = [];

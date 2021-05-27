@@ -6,7 +6,6 @@ import 'package:my_shop_app/data_access/products.dart';
 import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/home/screens/home_screen.dart';
 import 'package:my_shop_app/ui/validators.dart';
-import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class LoginNotifier extends ChangeNotifier {
@@ -55,16 +54,19 @@ class LoginNotifier extends ChangeNotifier {
               duration: Toast.LENGTH_LONG,
               textColor: Colors.white,
               backgroundColor: Colors.green.withOpacity(0.75));
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
       }
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
       print(e);
       if (showToast)
-        Toast.show('Incorrect email or password! Please, try again.', context,
-            duration: Toast.LENGTH_LONG,
-            textColor: Colors.white,
-            backgroundColor: Colors.red.withOpacity(0.75));
+        Toast.show(
+          'Incorrect email or password! Please, try again.',
+          context,
+          duration: Toast.LENGTH_LONG,
+          textColor: Colors.white,
+          backgroundColor: Colors.red.withOpacity(0.75),
+        );
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 
+// ignore: must_be_immutable
 class ExploreProductCard extends StatelessWidget {
   final Color color;
   String image, price, title, priceSymbole;

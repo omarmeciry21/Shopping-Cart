@@ -18,13 +18,12 @@ class _CheckSharedPrefsScreenState extends State<CheckSharedPrefsScreen> {
 
   Future<void> checkSharedPrefs() async {
     Account account = await getUserDataFromSharedPrefs();
-    if (account == Account.clear())
-      Navigator.pushReplacementNamed(context, '/login');
-    else {
-      Provider.of<LoginNotifier>(context, listen: false)
+    if (account != null) {
+      await Provider.of<LoginNotifier>(context, listen: false)
           .signInWithEmailAndPassword(
               account.mail, account.password, false, context);
-    }
+    } else
+      Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override

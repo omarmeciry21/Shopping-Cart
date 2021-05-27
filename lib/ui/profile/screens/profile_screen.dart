@@ -58,6 +58,9 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () {
                 FocusManager.instance.primaryFocus.unfocus();
 
+                profileNotifier.onPhoneChanged(_phoneController.text);
+                profileNotifier.onNameChanged(_nameController.text);
+
                 if ((profileNotifier.nameError != null ||
                     profileNotifier.phoneError != null)) {
                 } else {
@@ -115,9 +118,6 @@ class ProfileScreen extends StatelessWidget {
                 builder: (_, profileNotifier, __) => NameSection(
                   nameController: _nameController,
                   errorText: profileNotifier.nameError,
-                  onChanged: (value) {
-                    profileNotifier.onNameChanged(value);
-                  },
                 ),
               ),
               EmailSection(
@@ -157,9 +157,6 @@ class ProfileScreen extends StatelessWidget {
                       errorText: profileNotifier.phoneError,
                     ),
                     maxLength: 13,
-                    onChanged: (value) {
-                      profileNotifier.onPhoneChanged(value);
-                    },
                   ),
                 ),
               ),
@@ -213,12 +210,11 @@ class NameSection extends StatelessWidget {
     Key key,
     @required TextEditingController nameController,
     this.errorText,
-    this.onChanged,
   })  : _nameController = nameController,
         super(key: key);
 
   final TextEditingController _nameController;
-  final errorText, onChanged;
+  final errorText;
   @override
   Widget build(BuildContext context) {
     return ProfileSingleItemRow(
@@ -242,7 +238,6 @@ class NameSection extends StatelessWidget {
           errorText: errorText,
         ),
         maxLength: 75,
-        onChanged: onChanged,
       ),
     );
   }
