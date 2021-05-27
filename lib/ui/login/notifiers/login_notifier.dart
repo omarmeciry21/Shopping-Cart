@@ -60,7 +60,7 @@ class LoginNotifier extends ChangeNotifier {
       }
     } catch (e) {
       print(e);
-      if (showToast) if (showToast)
+      if (showToast)
         Toast.show('Incorrect email or password! Please, try again.', context,
             duration: Toast.LENGTH_LONG,
             textColor: Colors.white,
