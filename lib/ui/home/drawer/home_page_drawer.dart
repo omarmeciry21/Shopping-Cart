@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/data_access/manage_data/orders.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
-import 'package:my_shop_app/data_access/manage_data/user.dart';
+import 'package:my_shop_app/data_access/orders.dart';
+import 'package:my_shop_app/data_access/products.dart';
+import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/widgets/drawer_customized_tile.dart';
 import 'package:my_shop_app/ui/profile/notifiers/profile_notifier.dart';

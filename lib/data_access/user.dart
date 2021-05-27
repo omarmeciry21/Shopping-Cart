@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/cart.dart';
 import 'package:my_shop_app/core/models/orders.dart';
 import 'package:my_shop_app/core/models/user.dart';
-import 'package:my_shop_app/data_access/manage_data/cart.dart';
-import 'package:my_shop_app/data_access/manage_data/orders.dart';
+import 'package:my_shop_app/data_access/cart.dart';
+import 'package:my_shop_app/data_access/orders.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/no_internet/screens/no_internet_screen.dart';
 import 'package:toast/toast.dart';
@@ -61,54 +61,52 @@ Future<bool> createNewUser(Account newUser, BuildContext context) async {
 
 Future<bool> signInUser(
     String email, String password, BuildContext context) async {
-  
-    UserCredential signedUser = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-    if (!signedUser.user.emailVerified) {
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Email Verification'),
-          content: Text(
-              'Your account hasn\'t been verified yet. Please, check your email.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Dismiss'),
-            ),
-          ],
-        ),
-      );
-      return false;
-    }
-    if (dataUser != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc('${signedUser.user.uid}')
-          .get();
-      dataUser = Account(
-        name: userData.get('name').toString(),
-        mail: userData.get('email').toString(),
-        password: userData.get('password').toString(),
-        imageUrl: userData.get('imageUrl').toString(),
-        address: userData.get('address').toString(),
-        phone: userData.get('phone').toString(),
-        gender: userData.get('gender').toString() == 'Male'
-            ? Gender.Male
-            : Gender.Female,
-      );
-      return true;
-    } else {
-      Toast.show(
-          'Account Not Found! Please, Register a new account first.', context,
-          duration: Toast.LENGTH_LONG,
-          textColor: Colors.white,
-          backgroundColor: Colors.red);
-      return false;
-    }
-  
+  UserCredential signedUser = await FirebaseAuth.instance
+      .signInWithEmailAndPassword(email: email, password: password);
+  if (!signedUser.user.emailVerified) {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Email Verification'),
+        content: Text(
+            'Your account hasn\'t been verified yet. Please, check your email.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Dismiss'),
+          ),
+        ],
+      ),
+    );
+    return false;
+  }
+  if (dataUser != null) {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc('${signedUser.user.uid}')
+        .get();
+    dataUser = Account(
+      name: userData.get('name').toString(),
+      mail: userData.get('email').toString(),
+      password: userData.get('password').toString(),
+      imageUrl: userData.get('imageUrl').toString(),
+      address: userData.get('address').toString(),
+      phone: userData.get('phone').toString(),
+      gender: userData.get('gender').toString() == 'Male'
+          ? Gender.Male
+          : Gender.Female,
+    );
+    return true;
+  } else {
+    Toast.show(
+        'Account Not Found! Please, Register a new account first.', context,
+        duration: Toast.LENGTH_LONG,
+        textColor: Colors.white,
+        backgroundColor: Colors.red);
+    return false;
+  }
 }
 
 Future<bool> updateUserData(Account updatedUser) async {

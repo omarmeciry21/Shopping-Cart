@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/category.dart';
 import 'package:my_shop_app/core/models/product.dart';
-import 'package:my_shop_app/data_access/manage_data/cart.dart';
-import 'package:my_shop_app/data_access/manage_data/categories.dart' as data;
-import 'package:my_shop_app/data_access/manage_data/products.dart';
+import 'package:my_shop_app/data_access/cart.dart';
+import 'package:my_shop_app/data_access/categories.dart' as data;
+import 'package:my_shop_app/data_access/products.dart';
 
 class HomeNotifier extends ChangeNotifier {
   int selectedIndex = 0;

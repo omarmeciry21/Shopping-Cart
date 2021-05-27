@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/data_access/manage_data/user.dart';
+import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/forget_password/notifiers/confirm_email_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';

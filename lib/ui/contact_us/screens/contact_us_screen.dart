@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_app/data_access/manage_data/contact_us.dart';
+import 'package:my_shop_app/data_access/contact_us.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/blue_button.dart';

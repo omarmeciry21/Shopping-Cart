@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/my_cart/notifiers/cart_notifier.dart';
 import 'package:my_shop_app/ui/my_cart/widgets/cart_item_list_widget.dart';
@@ -59,13 +60,36 @@ class MyCartScreen extends StatelessWidget {
                 BlueButton(
                   text: 'Checkout',
                   onPressed: () {
-                    Navigator.push(
+                    if (dataUser.address == '' ||
+                        dataUser.phone == '' ||
+                        dataUser.address.isEmpty ||
+                        dataUser.phone.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Uncomplete Profile'),
+                          content: Text(
+                              'In order to place an order, you have to provide your phone number and address. Please, complete your profile and try again.'),
+                          actions: [
+                            TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('Dismiss')),
+                            TextButton(
+                                onPressed: () => Navigator.pushReplacementNamed(
+                                    context, '/home/profile'),
+                                child: Text('Go to My Profile'))
+                          ],
+                        ),
+                      );
+                    } else
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SubmitOrderScreen(
                             cartItems: cartNotifier.items,
                           ),
-                        ));
+                        ),
+                      );
                   },
                 ),
               ],

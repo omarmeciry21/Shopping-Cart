@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_shop_app/core/models/product.dart';
-import 'package:my_shop_app/data_access/manage_data/categories.dart';
+import 'package:my_shop_app/data_access/categories.dart';
 
 List<Product> dataProducts = [];
 List<Product> dataProductsFavourites = [];

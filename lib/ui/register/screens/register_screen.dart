@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:my_shop_app/core/models/user.dart';
-import 'package:my_shop_app/data_access/manage_data/user.dart';
+import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/register/notifiers/register_notifier.dart';
 import 'package:my_shop_app/ui/size_config.dart';
@@ -58,9 +58,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Enter your full name.',
                           errorText: registerNotifier.nameError,
                         ),
-                        onChanged: (value) {
-                          registerNotifier.onNameChanged(value);
-                        },
                       ),
                     ),
                     SizedBox(
@@ -77,8 +74,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Enter your email.',
                           errorText: registerNotifier.emailError,
                         ),
-                        onChanged: (value) =>
-                            registerNotifier.onEmailChanged(value),
                       ),
                     ),
                     SizedBox(
@@ -107,9 +102,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                           ),
                         ),
-                        onChanged: (value) {
-                          registerNotifier.onPasswordChanged(value);
-                        },
                       ),
                     ),
                     SizedBox(
@@ -119,6 +111,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       label: 'Register',
                       onPressed: () async {
                         FocusManager.instance.primaryFocus.unfocus();
+
+                        registerNotifier.onNameChanged(_nameController.text);
+                        registerNotifier
+                            .onPasswordChanged(_passwordController.text);
+                        registerNotifier.onEmailChanged(_emailController.text);
 
                         if ((registerNotifier.nameError != null ||
                             registerNotifier.passwordError != null ||

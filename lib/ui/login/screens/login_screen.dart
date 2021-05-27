@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:my_shop_app/data_access/manage_data/cart.dart';
-import 'package:my_shop_app/data_access/manage_data/categories.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
-import 'package:my_shop_app/data_access/manage_data/user.dart';
+import 'package:my_shop_app/data_access/cart.dart';
+import 'package:my_shop_app/data_access/categories.dart';
+import 'package:my_shop_app/data_access/products.dart';
+import 'package:my_shop_app/data_access/user.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/screens/home_screen.dart';
 import 'package:my_shop_app/ui/login/notifiers/password_notifier.dart';
@@ -69,9 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'Enter your email.',
                           errorText: loginNotifier.emailError,
                         ),
-                        onChanged: (value) {
-                          loginNotifier.onEmailChanged(value);
-                        },
                       ),
                     ),
                     SizedBox(
@@ -100,9 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                         ),
-                        onChanged: (value) {
-                          loginNotifier.onPasswordChanged(value);
-                        },
                       ),
                     ),
                     SizedBox(
@@ -112,6 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: 'Login',
                       onPressed: () async {
                         FocusManager.instance.primaryFocus.unfocus();
+
+                        loginNotifier
+                            .onPasswordChanged(_passwordController.text);
+                        loginNotifier.onEmailChanged(_emailController.text);
 
                         if ((loginNotifier.passwordError != null ||
                             loginNotifier.emailError != null)) {

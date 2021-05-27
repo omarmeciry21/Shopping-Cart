@@ -3,9 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:my_shop_app/core/models/cart_item.dart';
 import 'package:my_shop_app/core/models/order.dart';
 import 'package:my_shop_app/core/models/product.dart';
-import 'package:my_shop_app/data_access/manage_data/cart.dart' as manageCart;
-import 'package:my_shop_app/data_access/manage_data/orders.dart'
-    as manageOrders;
+import 'package:my_shop_app/data_access/cart.dart' as manageCart;
+import 'package:my_shop_app/data_access/orders.dart' as manageOrders;
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:toast/toast.dart';
 

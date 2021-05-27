@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:my_shop_app/data_access/manage_data/products.dart';
+import 'package:my_shop_app/data_access/products.dart';
 import 'package:my_shop_app/ui/constants.dart';
 import 'package:my_shop_app/ui/home/drawer/home_page_drawer.dart';
 import 'package:my_shop_app/ui/home/notifiers/home_notifier.dart';
@@ -10,7 +10,7 @@ import 'package:my_shop_app/ui/product_details/screens/product_details_screen.da
 import 'package:my_shop_app/ui/size_config.dart';
 import 'package:my_shop_app/ui/widgets/cart_numbered_icon.dart';
 import 'package:my_shop_app/ui/widgets/elevated_rounded_icon_button.dart';
-import 'package:my_shop_app/data_access/manage_data/user.dart';
+import 'package:my_shop_app/data_access/user.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
